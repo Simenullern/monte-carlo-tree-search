@@ -8,10 +8,11 @@ class Ledge:
         self.no_of_copper_coins = no_of_copper_coins
         self.verbose = verbose
 
-        self.board = [0 for cell in range(0, board_len)]
-        self.init_board()
+        self.board = None
+        self.init()
 
-    def init_board(self):
+    def init(self):
+        self.board = [0 for cell in range(0, self.board_len)]
         golden_location = random.randrange(self.board_len-1)
         self.board[golden_location] = 2
         for i in range(0, self.no_of_copper_coins):
@@ -33,8 +34,13 @@ class Ledge:
         self.board[index_from] = 0
 
         if self.verbose:
-            if index_to == -1:
-                print(player, "wins")
+            if index_to == -1 and brick_type == 'gold':
+                self.board[index_to] = 0
+                print(player, "pick up gold and wins:", self.board)
+            elif index_to == -1 and brick_type == 'copper':
+                self.board[index_from] = 0
+                self.board[index_to] = 0
+                print(player, "picks up copper:", self.board)
             else:
                 print(player, "moves", brick_type, "from cell", index_from, "to", index_to, ":", self.board)
 
@@ -56,6 +62,10 @@ class Ledge:
 
             elif self.board[forward_index] == 1:
                 a = 'copper'
+                if forward_index == 0:
+                    b = forward_index
+                    c = -1
+                    valid_moves.append((a, b, c))
 
             for backward_index in range(forward_index-1, -1, -1):
                 if self.board[backward_index] == 0:

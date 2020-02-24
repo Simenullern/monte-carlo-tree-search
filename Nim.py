@@ -3,14 +3,15 @@ from Stack import Stack
 
 class Nim:
     def __init__(self, no_of_starting_stones, max_num_of_stones_to_take, verbose=False):
-        assert(no_of_starting_stones > 100 and max_num_of_stones_to_take > 1)
+        assert(no_of_starting_stones > 10 and max_num_of_stones_to_take > 1)
         self.no_of_starting_stones = no_of_starting_stones
         self.max_num_of_stones_to_take = max_num_of_stones_to_take
         self.verbose = verbose
-        self.pile = Stack()
-        self.init_pile()
+        self.pile = None
+        self.init()
 
-    def init_pile(self):
+    def init(self):
+        self.pile = Stack()
         for stone in range(0, self.no_of_starting_stones):
             self.pile.push()
         if self.verbose:
@@ -25,7 +26,7 @@ class Nim:
 
         assert num_of_stones_to_pick in self.get_all_valid_moves() ###### dup from abov
 
-        for stone in range(0, len(self.max_num_of_stones_to_take)):
+        for stone in range(0, num_of_stones_to_pick):
             self.pile.pop()
 
         if self.verbose:
