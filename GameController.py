@@ -1,9 +1,19 @@
 import random
 
 
-class StateManager:
+class GameController:
     def __init__(self, game):
         self.game = game
+        self.games_won = {'Player1': 0, 'Player2': 0}
+
+    def summarize_stats(self):
+        num_of_games = self.games_won['Player1'] + self.games_won['Player2']
+        p1_percentage = round((self.games_won['Player1'] / num_of_games) * 100, 2)
+        print("\t Player1 wins " + str(self.games_won['Player1']) + str(" of ") + str(num_of_games) +\
+            " games (" + str(p1_percentage) + "%)")
+
+    def register_victory(self, player):
+        self.games_won[player] += 1
 
     def reset_game(self):
         self.game.init()
@@ -24,7 +34,5 @@ class StateManager:
 
     def make_random_move(self, player):
         random_move = self.get_random_move()
-        if random_move is None:
-            return
-        else:
-            self.game.make_move(random_move, player)
+        self.game.make_move(random_move, player)
+        return random_move

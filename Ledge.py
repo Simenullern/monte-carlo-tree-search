@@ -11,6 +11,9 @@ class Ledge:
         self.board = None
         self.init()
 
+    def get_state(self):
+        return self.board
+
     def init(self):
         self.board = [0 for cell in range(0, self.board_len)]
         golden_location = random.randrange(self.board_len-1)

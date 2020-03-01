@@ -2,16 +2,16 @@
 
 class Stack:
     def __init__(self):
-        self.stones = []
+        self.values = []
 
     def get_len(self):
-        return len(self.stones)
+        return len(self.values)
 
     def is_empty(self):
         return self.get_len() == 0
 
-    def push(self):
-        self.stones.append('stone')
+    def push(self, val):
+        self.values.append(val)
 
     def pop(self):
-        return self.stones.pop()
+        return self.values.pop()

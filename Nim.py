@@ -10,10 +10,13 @@ class Nim:
         self.pile = None
         self.init()
 
+    def get_state(self):
+        return str(self.pile.values)
+
     def init(self):
         self.pile = Stack()
         for stone in range(0, self.no_of_starting_stones):
-            self.pile.push()
+            self.pile.push('s')
         if self.verbose:
             print("Start pile:", self.no_of_starting_stones, "stones")
 
