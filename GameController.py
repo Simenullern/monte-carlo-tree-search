@@ -12,6 +12,9 @@ class GameController:
         print("\t Player1 wins " + str(self.games_won['Player1']) + str(" of ") + str(num_of_games) +\
             " games (" + str(p1_percentage) + "%)")
 
+    def disable_verbosity(self):
+        self.game.verbose = False
+
     def register_victory(self, player):
         self.games_won[player] += 1
 
@@ -36,3 +39,7 @@ class GameController:
         random_move = self.get_random_move()
         self.game.make_move(random_move, player)
         return random_move
+
+    def make_move(self, move, player):
+        self.game.make_move(move, player)
+        return move
