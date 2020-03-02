@@ -7,15 +7,15 @@ def shuffle(arr):
     return arr
 
 
-def print_tree_dfs(root):
+def print_tree(root):
     stack = Stack()
     stack.push(root)
     while not stack.is_empty():
         node = stack.pop()
         if node.parent is None:
-            print(len(node.state), " as root ")
+            print(node.state, " as root. Visited", node.visited_state_count, "times during backprop. Actions visited", node.qas_count)
         else:
-            print(len(node.state), " with parent ", len(node.parent.state))
+            print(node.state, " with parent ", node.parent.state, "Visited", node.visited_state_count, "times during bacprop. Actions visited", node.qas_count)
 
         for child in node.get_children():
             stack.push(child)

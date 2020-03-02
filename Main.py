@@ -7,7 +7,7 @@ from GameController import GameController
 from SearchTree import SearchTree
 
 # NIM
-NO_OF_STARTING_STONES = 11
+NO_OF_STARTING_STONES = 6
 MAX_NUM_OF_STONES_TO_TAKE = 3
 
 # LEDGE
@@ -16,7 +16,7 @@ NO_OF_COPPER_COINS = 3
 
 VERBOSE = True
 NUM_EPISODES = 10
-NUM_OF_SIMULATIONS = 10
+NUM_OF_SIMULATIONS = 50
 SUMMARIZE_STATS_EVERY_NTH_EPISODE = 50
 PLAYER = 1
 GAME_CYCLE = cycle(['Player1', 'Player2']) if PLAYER == 1 else cycle(['Player2', 'Player1']) if PLAYER == 2 \
@@ -34,26 +34,26 @@ if __name__ == '__main__':
         print("\t EPISODE", episode)
         breakpoint()
 
-        GameController.reset_game()
-        start_state = game.get_state()
+        gameController.reset_game()
+        start_state = gameController.get_game_state()
         searchTree = SearchTree(start_state)
 
         for player in GAME_CYCLE:
             action = searchTree.simulate_games_to_find_move(gameController, player, NUM_OF_SIMULATIONS)
-            GameController.make_move(action, player)
-            new_game_state = game.get_state()
+            gameController.make_move(action, player)
+            new_game_state = gameController.get_game_state()
+
             print("\n found action", action, "gives new state", new_game_state)
-            searchTree.node_expansion(action, new_game_state) # refactor to tree?
+            breakpoint()
+            #searchTree.node_expansion(action, new_game_state) # refactor to tree?
             searchTree.add_to_tree_policy(action)
 
 
             #print(searchTree.print_tree_dfs())
-            breakpoint()
 
-
-            if GameController.game_is_won():
+            if gameController.game_is_won():
                 print(player, "won!")
-                GameController.register_victory(player)
+                gameController.register_victory(player)
                 if episode % SUMMARIZE_STATS_EVERY_NTH_EPISODE == 0:
                     GameController.summarize_stats()
                 break

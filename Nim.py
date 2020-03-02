@@ -1,9 +1,10 @@
 from Stack import Stack
+import copy
 
 
 class Nim:
     def __init__(self, no_of_starting_stones, max_num_of_stones_to_take, verbose=False):
-        assert(no_of_starting_stones > 10 and max_num_of_stones_to_take > 1)
+        assert(no_of_starting_stones > 1 and max_num_of_stones_to_take > 1)
         self.no_of_starting_stones = no_of_starting_stones
         self.max_num_of_stones_to_take = max_num_of_stones_to_take
         self.verbose = verbose
@@ -11,7 +12,13 @@ class Nim:
         self.init()
 
     def get_state(self):
-        return str(self.pile.values)
+        return self.pile.values
+
+    def get_succ_state(self, state, action):
+        cop = copy.deepcopy(self)
+        cop.verbose = False
+        cop.make_move(action, "_")
+        return cop.get_state()
 
     def init(self):
         self.pile = Stack()
