@@ -1,9 +1,10 @@
 from math import sqrt
 
+
 class Node:
     def __init__(self, state, parent, action_from_parent):
         self.state = state
-        self.visited_state_count = 0  # Start with what? A node is expanded first without necesarily visitng it
+        self.visited_state_count = 0  # A node is expanded first without necessarily visiting it, thus 0
         self.parent = parent
         self.action_from_parent = action_from_parent
         self.children = dict()  # key is action, val is Node
@@ -14,10 +15,7 @@ class Node:
         return self.state
 
     def add_child(self, action, node):
-        if not action in self.children.keys():
-            self.children[action] = node
-        else:
-            print(self.state, "already has child", node.state, "with action", action)
+        self.children[action] = node
 
     def get_parent(self):
         return self.parent
@@ -54,8 +52,6 @@ class Node:
             if value > max_value:
                 max_value = value
                 max_action = action
-        if max_action is None:
-            breakpoint()
         return max_action
 
     def get_exploration_bonus(self, action, exploration_bonus_c):

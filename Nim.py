@@ -4,7 +4,7 @@ import copy
 
 class Nim:
     def __init__(self, no_of_starting_stones, max_num_of_stones_to_take, verbose=False):
-        assert(no_of_starting_stones > 1 and max_num_of_stones_to_take > 1)
+        assert(100 > no_of_starting_stones > 1 and no_of_starting_stones > max_num_of_stones_to_take > 1)
         self.no_of_starting_stones = no_of_starting_stones
         self.max_num_of_stones_to_take = max_num_of_stones_to_take
         self.verbose = verbose

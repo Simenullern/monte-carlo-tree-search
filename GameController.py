@@ -1,6 +1,7 @@
 import random
 import copy
 
+
 class GameController:
     def __init__(self, game):
         self.game = game

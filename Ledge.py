@@ -3,12 +3,11 @@ import copy
 
 
 class Ledge:
-    def __init__(self, board_len, no_of_copper_coins, verbose):
-        assert(1 < board_len <= 20 and -1 < no_of_copper_coins < board_len)
-        self.board_len = board_len
-        self.no_of_copper_coins = no_of_copper_coins
+    def __init__(self, init_board, verbose):
+        assert(1 < len(init_board) <= 20 and -1 < init_board.count(1) < len(init_board) and init_board.count(2) == 1)
         self.verbose = verbose
 
+        self.init_board = init_board
         self.board = None
         self.init()
 
@@ -22,15 +21,7 @@ class Ledge:
         return cop.get_state()
 
     def init(self):
-        self.board = [0 for cell in range(0, self.board_len)]
-        golden_location = random.randrange(self.board_len-1)
-        self.board[golden_location] = 2
-        for i in range(0, self.no_of_copper_coins):
-            copper_location = random.randrange(self.board_len-1)
-            while copper_location == golden_location:
-                copper_location = random.randrange(self.board_len - 1)
-            self.board[copper_location] = 1
-
+        self.board = copy.copy(self.init_board)
         if self.verbose:
             print("Start board", self.board)
 
@@ -43,15 +34,16 @@ class Ledge:
         self.board[index_to] = self.board[index_from]
         self.board[index_from] = 0
 
-        if self.verbose:
-            if index_to == -1 and brick_type == 'gold':
-                self.board[index_to] = 0
+        if index_to == -1 and brick_type == 'gold':
+            self.board[index_to] = 0
+            if self.verbose:
                 print(player, "pick up gold and wins:", self.board)
-            elif index_to == -1 and brick_type == 'copper':
-                self.board[index_from] = 0
-                self.board[index_to] = 0
+        elif index_to == -1 and brick_type == 'copper':
+            self.board[index_to] = 0
+            if self.verbose:
                 print(player, "picks up copper:", self.board)
-            else:
+        else:
+            if self.verbose:
                 print(player, "moves", brick_type, "from cell", index_from, "to", index_to, ":", self.board)
 
     def get_all_valid_moves(self):
@@ -88,10 +80,7 @@ class Ledge:
         return valid_moves
 
     def is_won(self):
-        for cell in self.board:
-            if cell == 2:
-                return False
-        return True
+        return 2 not in self.board
 
 
 if __name__ == '__main__':
