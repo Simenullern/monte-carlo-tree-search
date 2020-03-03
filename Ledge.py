@@ -1,4 +1,5 @@
 import random
+import copy
 
 
 class Ledge:
@@ -13,6 +14,12 @@ class Ledge:
 
     def get_state(self):
         return self.board
+
+    def get_succ_state(self, action):
+        cop = copy.deepcopy(self)
+        cop.verbose = False
+        cop.make_move(action, "_")
+        return cop.get_state()
 
     def init(self):
         self.board = [0 for cell in range(0, self.board_len)]

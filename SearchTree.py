@@ -6,10 +6,11 @@ import Utils
 
 
 class SearchTree:
-    def __init__(self, start_state):
+    def __init__(self, start_state, exploration_bonus_c):
         self.root = Node(state=start_state, parent=None, action_from_parent=None)
         self.tree_policy = []  # List of actions
         self.start_state = start_state
+        self.exploration_bonus_c = exploration_bonus_c
 
     def add_to_tree_policy(self, action):
         self.tree_policy.append(action)
@@ -37,14 +38,8 @@ class SearchTree:
         simulation_controller = episode_game_controller.get_copy_for_simulation(disable_verbosity=True)
 
         self.node_expand_all_children(simulation_controller)
-        print("tree policy", self.tree_policy)
-        Utils.print_tree(self.root)
-        breakpoint()
-
 
         game_cycle_in_simulation = cycle(['Player1', 'Player2']) if player == 'Player1' else cycle(['Player2', 'Player1'])
-        start_state = copy.copy(simulation_controller.get_game_state())
-        #print("start state", start_state)
 
         simulation_stats = {}
         for move in simulation_controller.get_all_valid_moves():
@@ -61,10 +56,14 @@ class SearchTree:
             game_cycle_in_simulation = cycle(['Player1', 'Player2']) if player == 'Player1' else cycle(
                 ['Player2', 'Player1'])
 
-        print(simulation_stats)
-        breakpoint()
-        best_move = episode_game_controller.get_random_move() ## must change
-        return best_move
+        #Utils.print_tree_dfs(self.root)
+        #print(simulation_stats)
+        #breakpoint()
+        #best_move = episode_game_controller.get_random_move() ## must change
+        chosen_move = self.get_move()
+        #print("chosen move", chosen_move)
+        #breakpoint()
+        return chosen_move
 
     def leaf_evaluation(self, player_evaluating, cycle, gameController, default_policy='random_move'):
         first_move = None
@@ -84,19 +83,21 @@ class SearchTree:
                     return first_move, -1
 
     def backprop(self, reward, first_move_from_leaf_in_tree_search):
+        #print("backpropping from move", first_move_from_leaf_in_tree_search, "with reward", reward)
+
         leaf = self.tree_search(self.tree_policy)
-        leaf.increment_visited_count()
-        leaf.increment_qas_count(first_move_from_leaf_in_tree_search)
-        leaf.increment_qas_value(first_move_from_leaf_in_tree_search, reward)
+        action = first_move_from_leaf_in_tree_search
 
-        while leaf.get_parent() is not None:
-            parent = leaf.get_parent()
-            parent.increment_visited_count()
-            action_from_parent = leaf.get_action_from_parent()
-            parent.increment_qas_count(action_from_parent)
-            parent.increment_qas_value(action_from_parent, reward)
-            leaf = parent
+        while leaf is not None:
+            #print("Updating", leaf.state, action)
+            leaf.increment_visited_count()
+            leaf.increment_qsa_count(action)
+            leaf.increment_qsa_value(action, reward)
 
+            action = leaf.get_action_from_parent()
+            leaf = leaf.get_parent()
 
-
+    def get_move(self):
+        decision_point = self.tree_search(self.tree_policy)
+        return decision_point.get_move(self.exploration_bonus_c)
 

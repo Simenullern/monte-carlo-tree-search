@@ -14,7 +14,7 @@ class Nim:
     def get_state(self):
         return self.pile.values
 
-    def get_succ_state(self, state, action):
+    def get_succ_state(self, action):
         cop = copy.deepcopy(self)
         cop.verbose = False
         cop.make_move(action, "_")
