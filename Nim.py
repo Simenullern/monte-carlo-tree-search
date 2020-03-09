@@ -9,7 +9,7 @@ class Nim:
         self.max_num_of_stones_to_take = max_num_of_stones_to_take
         self.verbose = verbose
         self.pile = None
-        self.init()
+        self.init(verbose=False)
 
     def get_state(self):
         return self.pile.values
@@ -20,11 +20,11 @@ class Nim:
         cop.make_move(action, "_")
         return cop.get_state()
 
-    def init(self):
+    def init(self, verbose=True):
         self.pile = Stack()
         for stone in range(0, self.no_of_starting_stones):
             self.pile.push('s')
-        if self.verbose:
+        if verbose:
             print("Start pile:", self.no_of_starting_stones, "stones")
 
     def make_move(self, num_of_stones_to_pick, player):
@@ -33,8 +33,6 @@ class Nim:
 
         if self.pile.get_len() - num_of_stones_to_pick < 0:
             raise ValueError(player, "cant pick", num_of_stones_to_pick, "when only", self.pile.get_len(), "remains")
-
-        assert num_of_stones_to_pick in self.get_all_valid_moves() ###### dup from abov
 
         for stone in range(0, num_of_stones_to_pick):
             self.pile.pop()

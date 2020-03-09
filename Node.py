@@ -38,7 +38,7 @@ class Node:
         else:
             self.qsa_count[action] = 1
 
-    def increment_qsa_value(self, action, value):
+    def update_qsa_value(self, action, value):
         if action in self.qsa_value.keys():
             self.qsa_value[action] += value
         else:

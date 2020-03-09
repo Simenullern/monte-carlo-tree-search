@@ -2,14 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0002e42a-3998-45dd-9f02-898d00a6dac2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameController.py" beforeDir="false" afterPath="$PROJECT_DIR$/GameController.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Ledge.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ledge.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Nim.py" beforeDir="false" afterPath="$PROJECT_DIR$/Nim.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Node.py" beforeDir="false" afterPath="$PROJECT_DIR$/Node.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SearchTree.py" beforeDir="false" afterPath="$PROJECT_DIR$/SearchTree.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/Utils.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,7 +16,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/monte_carlo_tree_search$Main.coverage" NAME="Main Coverage Results" MODIFIED="1583258007833" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/monte_carlo_tree_search$Main.coverage" NAME="Main Coverage Results" MODIFIED="1583761482184" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/monte_carlo_tree_search$Nim.coverage" NAME="Nim Coverage Results" MODIFIED="1582557811554" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/monte_carlo_tree_search$Ledge.coverage" NAME="Ledge Coverage Results" MODIFIED="1582555042500" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
@@ -36,13 +34,13 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="28" />
-          <entry key="py" value="14744" />
+          <entry key="py" value="14934" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="28" />
-          <entry key="Python" value="14744" />
+          <entry key="Python" value="14934" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -59,30 +57,30 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Nim.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-392">
+            <state relative-caret-position="-238">
               <caret line="16" column="37" lean-forward="true" selection-start-line="16" selection-start-column="37" selection-end-line="16" selection-end-column="37" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
-                <marker date="1583234762761" expanded="true" signature="48:49" ph="..." />
-                <marker date="1583234762761" expanded="true" signature="542:676" ph="..." />
-                <marker date="1583234762761" expanded="true" signature="670:676" ph="..." />
-                <marker date="1583234762761" expanded="true" signature="1743:2178" ph="..." />
+                <marker date="1583757607410" expanded="true" signature="48:49" ph="..." />
+                <marker date="1583757607410" expanded="true" signature="555:689" ph="..." />
+                <marker date="1583757607410" expanded="true" signature="683:689" ph="..." />
+                <marker date="1583757607410" expanded="true" signature="1676:2111" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="20" column="19" lean-forward="true" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
+            <state relative-caret-position="396">
+              <caret line="22" column="26" lean-forward="true" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
-                <marker date="1583258142049" expanded="true" signature="417:419" ph="..." />
+                <marker date="1583761500559" expanded="true" signature="411:413" ph="..." />
               </folding>
             </state>
           </provider>
@@ -91,8 +89,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SearchTree.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-222">
-              <caret line="42" column="39" lean-forward="true" selection-start-line="42" selection-start-column="39" selection-end-line="42" selection-end-column="39" />
+            <state relative-caret-position="1242">
+              <caret line="69" column="29" lean-forward="true" selection-start-line="69" selection-start-column="29" selection-end-line="69" selection-end-column="30" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
@@ -103,12 +101,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Node.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1062">
-              <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
+            <state relative-caret-position="954">
+              <caret line="53" column="35" lean-forward="true" selection-start-line="53" selection-start-column="35" selection-end-line="53" selection-end-column="35" />
               <folding>
-                <marker date="1583235436924" expanded="true" signature="610:616" ph="..." />
-                <marker date="1583235436924" expanded="true" signature="780:825" ph="..." />
-                <marker date="1583235436924" expanded="true" signature="853:896" ph="..." />
+                <marker date="1583756507224" expanded="true" signature="610:616" ph="..." />
+                <marker date="1583756507224" expanded="true" signature="780:825" ph="..." />
+                <marker date="1583756507224" expanded="true" signature="853:896" ph="..." />
               </folding>
             </state>
           </provider>
@@ -130,8 +128,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="594">
-              <caret line="33" column="34" selection-start-line="33" selection-start-column="34" selection-end-line="33" selection-end-column="34" />
+            <state relative-caret-position="342">
+              <caret line="19" column="49" lean-forward="true" selection-start-line="19" selection-start-column="49" selection-end-line="19" selection-end-column="50" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -142,16 +140,16 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GameController.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="3" selection-start-line="3" selection-end-line="3" />
+            <state relative-caret-position="846">
+              <caret line="47" column="30" lean-forward="true" selection-start-line="47" selection-start-column="30" selection-end-line="47" selection-end-column="30" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
-                <marker date="1583258091780" expanded="true" signature="799:927" ph="..." />
-                <marker date="1583258091780" expanded="true" signature="955:995" ph="..." />
-                <marker date="1583258091780" expanded="true" signature="1030:1072" ph="..." />
-                <marker date="1583258091780" expanded="true" signature="1093:1102" ph="..." />
-                <marker date="1583258091780" expanded="true" signature="1093:1124" ph="..." />
-                <marker date="1583258091780" expanded="true" signature="1281:1334" ph="..." />
+                <marker date="1583757687560" expanded="true" signature="799:927" ph="..." />
+                <marker date="1583757687560" expanded="true" signature="955:995" ph="..." />
+                <marker date="1583757687560" expanded="true" signature="1030:1072" ph="..." />
+                <marker date="1583757687560" expanded="true" signature="1102:1111" ph="..." />
+                <marker date="1583757687560" expanded="true" signature="1102:1140" ph="..." />
+                <marker date="1583757687560" expanded="true" signature="1297:1350" ph="..." />
               </folding>
             </state>
           </provider>
@@ -160,13 +158,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Ledge.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="25" column="44" selection-start-line="25" selection-start-column="44" selection-end-line="25" selection-end-column="44" />
+            <state relative-caret-position="288">
+              <caret line="16" column="33" lean-forward="true" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
               <folding>
-                <element signature="e#0#13#0" expanded="true" />
-                <marker date="1583257496834" expanded="true" signature="344:676" ph="..." />
-                <marker date="1583257496834" expanded="true" signature="1525:1530" ph="..." />
-                <marker date="1583257496834" expanded="true" signature="1525:1534" ph="..." />
+                <marker date="1583761525642" expanded="true" signature="343:684" ph="..." />
+                <marker date="1583761525642" expanded="true" signature="1533:1538" ph="..." />
+                <marker date="1583761525642" expanded="true" signature="1533:1542" ph="..." />
               </folding>
             </state>
           </provider>
@@ -194,8 +191,8 @@
       <find>root</find>
       <find>Node</find>
       <find>random_init</find>
-      <find>copy</find>
       <find>node_exp</find>
+      <find>copy</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -207,13 +204,13 @@
         <option value="$PROJECT_DIR$/StateManager.py" />
         <option value="$PROJECT_DIR$/Stack.py" />
         <option value="$PROJECT_DIR$/BaseTree.py" />
-        <option value="$PROJECT_DIR$/Nim.py" />
-        <option value="$PROJECT_DIR$/Node.py" />
-        <option value="$PROJECT_DIR$/Ledge.py" />
         <option value="$PROJECT_DIR$/Utils.py" />
-        <option value="$PROJECT_DIR$/SearchTree.py" />
+        <option value="$PROJECT_DIR$/Node.py" />
+        <option value="$PROJECT_DIR$/Nim.py" />
         <option value="$PROJECT_DIR$/GameController.py" />
+        <option value="$PROJECT_DIR$/SearchTree.py" />
         <option value="$PROJECT_DIR$/Main.py" />
+        <option value="$PROJECT_DIR$/Ledge.py" />
       </list>
     </option>
   </component>
@@ -402,31 +399,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GameController.py">
+    <entry file="file://$PROJECT_DIR$/Ledge.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        <state relative-caret-position="288">
+          <caret line="16" column="33" lean-forward="true" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
-            <marker date="1583258091780" expanded="true" signature="799:927" ph="..." />
-            <marker date="1583258091780" expanded="true" signature="955:995" ph="..." />
-            <marker date="1583258091780" expanded="true" signature="1030:1072" ph="..." />
-            <marker date="1583258091780" expanded="true" signature="1093:1102" ph="..." />
-            <marker date="1583258091780" expanded="true" signature="1093:1124" ph="..." />
-            <marker date="1583258091780" expanded="true" signature="1281:1334" ph="..." />
+            <marker date="1583761525642" expanded="true" signature="343:684" ph="..." />
+            <marker date="1583761525642" expanded="true" signature="1533:1538" ph="..." />
+            <marker date="1583761525642" expanded="true" signature="1533:1542" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Ledge.py">
+    <entry file="file://$PROJECT_DIR$/GameController.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="25" column="44" selection-start-line="25" selection-start-column="44" selection-end-line="25" selection-end-column="44" />
+        <state relative-caret-position="846">
+          <caret line="47" column="30" lean-forward="true" selection-start-line="47" selection-start-column="30" selection-end-line="47" selection-end-column="30" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
-            <marker date="1583257496834" expanded="true" signature="344:676" ph="..." />
-            <marker date="1583257496834" expanded="true" signature="1525:1530" ph="..." />
-            <marker date="1583257496834" expanded="true" signature="1525:1534" ph="..." />
+            <marker date="1583757687560" expanded="true" signature="799:927" ph="..." />
+            <marker date="1583757687560" expanded="true" signature="955:995" ph="..." />
+            <marker date="1583757687560" expanded="true" signature="1030:1072" ph="..." />
+            <marker date="1583757687560" expanded="true" signature="1102:1111" ph="..." />
+            <marker date="1583757687560" expanded="true" signature="1102:1140" ph="..." />
+            <marker date="1583757687560" expanded="true" signature="1297:1350" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="19" column="49" lean-forward="true" selection-start-line="19" selection-start-column="49" selection-end-line="19" selection-end-column="50" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -442,59 +448,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="33" column="34" selection-start-line="33" selection-start-column="34" selection-end-line="33" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Node.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1062">
-          <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
+        <state relative-caret-position="954">
+          <caret line="53" column="35" lean-forward="true" selection-start-line="53" selection-start-column="35" selection-end-line="53" selection-end-column="35" />
           <folding>
-            <marker date="1583235436924" expanded="true" signature="610:616" ph="..." />
-            <marker date="1583235436924" expanded="true" signature="780:825" ph="..." />
-            <marker date="1583235436924" expanded="true" signature="853:896" ph="..." />
+            <marker date="1583756507224" expanded="true" signature="610:616" ph="..." />
+            <marker date="1583756507224" expanded="true" signature="780:825" ph="..." />
+            <marker date="1583756507224" expanded="true" signature="853:896" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/SearchTree.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-222">
-          <caret line="42" column="39" lean-forward="true" selection-start-line="42" selection-start-column="39" selection-end-line="42" selection-end-column="39" />
+        <state relative-caret-position="1242">
+          <caret line="69" column="29" lean-forward="true" selection-start-line="69" selection-start-column="29" selection-end-line="69" selection-end-column="30" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Nim.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-392">
-          <caret line="16" column="37" lean-forward="true" selection-start-line="16" selection-start-column="37" selection-end-line="16" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-            <marker date="1583234762761" expanded="true" signature="48:49" ph="..." />
-            <marker date="1583234762761" expanded="true" signature="542:676" ph="..." />
-            <marker date="1583234762761" expanded="true" signature="670:676" ph="..." />
-            <marker date="1583234762761" expanded="true" signature="1743:2178" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="20" column="19" lean-forward="true" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
+        <state relative-caret-position="396">
+          <caret line="22" column="26" lean-forward="true" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
-            <marker date="1583258142049" expanded="true" signature="417:419" ph="..." />
+            <marker date="1583761500559" expanded="true" signature="411:413" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Nim.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-238">
+          <caret line="16" column="37" lean-forward="true" selection-start-line="16" selection-start-column="37" selection-end-line="16" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+            <marker date="1583757607410" expanded="true" signature="48:49" ph="..." />
+            <marker date="1583757607410" expanded="true" signature="555:689" ph="..." />
+            <marker date="1583757607410" expanded="true" signature="683:689" ph="..." />
+            <marker date="1583757607410" expanded="true" signature="1676:2111" ph="..." />
           </folding>
         </state>
       </provider>

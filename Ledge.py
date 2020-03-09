@@ -1,4 +1,3 @@
-import random
 import copy
 
 
@@ -9,7 +8,7 @@ class Ledge:
 
         self.init_board = init_board
         self.board = None
-        self.init()
+        self.init(verbose=False)
 
     def get_state(self):
         return self.board
@@ -20,9 +19,9 @@ class Ledge:
         cop.make_move(action, "_")
         return cop.get_state()
 
-    def init(self):
+    def init(self, verbose=True):
         self.board = copy.copy(self.init_board)
-        if self.verbose:
+        if verbose:
             print("Start board", self.board)
 
     def make_move(self, move, player):

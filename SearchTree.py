@@ -31,16 +31,14 @@ class SearchTree:
     def simulate_games_to_find_move(self, episode_game_controller, player, number_of_simulations):
         simulation_controller = episode_game_controller.get_copy_for_simulation(disable_verbosity=True)
         self.node_expand_all_children(simulation_controller)
-        game_cycle_in_simulation = cycle(['Player1', 'Player2']) if player == 'Player1' else cycle(['Player2', 'Player1'])
 
         for simulation in range(0, number_of_simulations):
-            first_move, reward = self.leaf_evaluation(player, game_cycle_in_simulation, simulation_controller)
-            self.backprop(reward, first_move)
-
-            # Reset controller and cycle to original game position for new simulation
             simulation_controller = episode_game_controller.get_copy_for_simulation(disable_verbosity=True)
             game_cycle_in_simulation = cycle(['Player1', 'Player2']) if player == 'Player1' else cycle(
                 ['Player2', 'Player1'])
+            first_move, reward = self.leaf_evaluation(player, game_cycle_in_simulation, simulation_controller)
+            self.backprop(reward, first_move)
+
 
         #Utils.print_tree_dfs(self.root)
         return self.get_move()
@@ -69,7 +67,7 @@ class SearchTree:
         while leaf is not None:
             leaf.increment_visited_count()
             leaf.increment_qsa_count(action)
-            leaf.increment_qsa_value(action, reward)
+            leaf.update_qsa_value(action, reward)
             action = leaf.get_action_from_parent()
             leaf = leaf.get_parent()
 

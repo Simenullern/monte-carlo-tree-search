@@ -33,8 +33,8 @@ class GameController:
     def register_victory(self, player):
         self.games_won[player] += 1
 
-    def reset_game(self):
-        self.game.init()
+    def reset_game(self, verbose):
+        self.game.init(verbose)
 
     def game_is_won(self):
         return self.game.is_won()
