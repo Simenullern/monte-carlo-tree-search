@@ -17,7 +17,7 @@ BOARD_SIZE = 3
 
 VERBOSE = False
 NUM_EPISODES = 30
-NUM_OF_SIMULATIONS = 1000
+NUM_OF_SIMULATIONS = 500
 EXPLORATION_BONUS_C = 1
 SUMMARIZE_STATS_EVERY_NTH_EPISODE = 15
 STARTING_PLAYER = 1
@@ -25,7 +25,7 @@ STARTING_PLAYER = 1
 if __name__ == '__main__':
     #game = Nim(no_of_starting_stones=NO_OF_STARTING_STONES, max_num_of_stones_to_take=MAX_NUM_OF_STONES_TO_TAKE, verbose=VERBOSE)
     #game = Ledge(init_board=B_INIT, verbose=VERBOSE)
-    game = Hex(size=3)
+    game = Hex(size=4)
     gameController = GameController(game)
     START_STATE = gameController.get_game_state()
 

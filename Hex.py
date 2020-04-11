@@ -123,7 +123,7 @@ class Hex:
         return string
 
     def visualize(self):
-        G = nx.Graph(tight_layout = False)
+        G = nx.Graph()
 
         # Add Nodes
         node_colors = []
@@ -137,6 +137,7 @@ class Hex:
                 G.add_node((r, c))
 
         edge_colors = []
+        edge_widths = []
         cache = set()
         # Add Edges
         for r in range(0, len(self.cells)):
@@ -150,16 +151,23 @@ class Hex:
 
                         if current_loc[0] == 0 and neighbor.get_loc()[0] == 0:
                             edge_colors.append('red')
+                            edge_widths.append(2)
                         elif current_loc[0] == self.size-1 and neighbor.get_loc()[0] == self.size-1:
                             edge_colors.append('red')
+                            edge_widths.append(2)
                         elif current_loc[1] == 0 and neighbor.get_loc()[1] == 0:
                             edge_colors.append('black')
+                            edge_widths.append(2)
                         elif current_loc[1] == self.size - 1 and neighbor.get_loc()[1] == self.size - 1:
                             edge_colors.append('black')
+                            edge_widths.append(2)
                         else:
                             edge_colors.append('gray')
+                            edge_widths.append(1)
 
                     cache.update([(current_loc, neighbor_loc), (neighbor_loc, current_loc)])
+
+        pos = nx.spring_layout(G, seed=2)
 
         # Draw the board
         options = {
@@ -168,7 +176,8 @@ class Hex:
             'font_color': 'black',
             'node_color': node_colors,
             'edge_color': edge_colors,
-            'pos': nx.spring_layout(G, seed=5),
+            'width': edge_widths,
+            'pos': pos,
 
         }
 
@@ -177,9 +186,9 @@ class Hex:
 
 
 if __name__ == '__main__':
-    Board = Hex(size=4)
+    Board = Hex(size=5)
     Board.visualize()
-    print(Board.get_all_possible_moves())
+    print(Board.get_all_valid_moves())
     Board.make_move((1, 1), 'Player1')
     print(Board.is_won())
     Board.make_move((3, 0), 'Player2')
