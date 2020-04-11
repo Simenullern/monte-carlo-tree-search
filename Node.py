@@ -1,4 +1,4 @@
-from math import sqrt
+from math import sqrt, log2
 
 
 class Node:
@@ -10,6 +10,11 @@ class Node:
         self.children = dict()  # key is action, val is Node
         self.qsa_count = dict()  # key is action, val is number of times action has been selected from state s
         self.qsa_value = dict()  # key is action, val is state action - value
+
+    def reset_stats(self):
+        self.visited_state_count = 0
+        self.qsa_count = dict()
+        self.qsa_value = dict()
 
     def get_state(self):
         return self.state
@@ -55,5 +60,7 @@ class Node:
         return max_action
 
     def get_exploration_bonus(self, action, exploration_bonus_c):
-        usa = exploration_bonus_c * sqrt(self.visited_state_count / (1 + self.qsa_count[action]))
+        usa = exploration_bonus_c * sqrt(log2(self.visited_state_count) / (1 + self.qsa_count[action]))
         return usa
+
+

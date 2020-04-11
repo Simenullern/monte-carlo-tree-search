@@ -14,6 +14,12 @@ class SearchTree:
     def add_to_tree_policy(self, action):
         self.tree_policy.append(action)
 
+    def tree_search(self, tree_policy):
+        node = self.root
+        for action in tree_policy:
+            node = node.get_child(action)
+        return node
+
     def node_expand_all_children(self, controller):
         current_leaf = self.tree_search(self.tree_policy)
         all_available_moves = controller.get_all_valid_moves()
@@ -21,12 +27,6 @@ class SearchTree:
             succ_state = controller.get_succ_state(action)
             new_leaf = Node(state=succ_state, parent=current_leaf, action_from_parent=action)
             current_leaf.add_child(action, new_leaf)
-
-    def tree_search(self, tree_policy):
-        node = self.root
-        for action in tree_policy:
-            node = node.get_child(action)
-        return node
 
     def simulate_games_to_find_move(self, episode_game_controller, player, number_of_simulations):
         simulation_controller = episode_game_controller.get_copy_for_simulation(disable_verbosity=True)
@@ -74,4 +74,11 @@ class SearchTree:
     def get_move(self):
         decision_point = self.tree_search(self.tree_policy)
         return decision_point.get_move(self.exploration_bonus_c)
+
+    def reset_stats(self):
+        node = self.root
+        for action in self.tree_policy:
+            node.reset_stats()
+            node = node.get_child(action)
+        return node
 

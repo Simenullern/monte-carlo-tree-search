@@ -7,17 +7,16 @@ from GameController import GameController
 from SearchTree import SearchTree
 
 # NIM
-NO_OF_STARTING_STONES = 7
-MAX_NUM_OF_STONES_TO_TAKE = 3
-
+NO_OF_STARTING_STONES = 20
+MAX_NUM_OF_STONES_TO_TAKE = 5
 # LEDGE
-B_INIT = [0, 2, 1, 1, 1, 0, 0, 1]
+B_INIT = [1, 1, 2, 1, 1]
 
 VERBOSE = False
-NUM_EPISODES = 100
+NUM_EPISODES = 30
 NUM_OF_SIMULATIONS = 500
 EXPLORATION_BONUS_C = 1
-SUMMARIZE_STATS_EVERY_NTH_EPISODE = 50
+SUMMARIZE_STATS_EVERY_NTH_EPISODE = 15
 STARTING_PLAYER = 1
 
 if __name__ == '__main__':
@@ -36,6 +35,7 @@ if __name__ == '__main__':
             else cycle((Utils.shuffle(['Player2', 'Player1'])))
 
         for player in GAME_CYCLE:
+            searchTree.reset_stats()
             action = searchTree.simulate_games_to_find_move(gameController, player, NUM_OF_SIMULATIONS)
             gameController.make_move(action, player)
             searchTree.add_to_tree_policy(action)
