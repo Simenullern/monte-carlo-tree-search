@@ -3,25 +3,29 @@ from itertools import cycle
 import Utils
 from Nim import Nim
 from Ledge import Ledge
+from Hex import Hex
 from GameController import GameController
 from SearchTree import SearchTree
 
 # NIM
-NO_OF_STARTING_STONES = 20
-MAX_NUM_OF_STONES_TO_TAKE = 5
+NO_OF_STARTING_STONES = 9
+MAX_NUM_OF_STONES_TO_TAKE = 3
 # LEDGE
 B_INIT = [1, 1, 2, 1, 1]
+# HEX
+BOARD_SIZE = 3
 
 VERBOSE = False
 NUM_EPISODES = 30
-NUM_OF_SIMULATIONS = 500
+NUM_OF_SIMULATIONS = 1000
 EXPLORATION_BONUS_C = 1
 SUMMARIZE_STATS_EVERY_NTH_EPISODE = 15
 STARTING_PLAYER = 1
 
 if __name__ == '__main__':
-    game = Nim(no_of_starting_stones=NO_OF_STARTING_STONES, max_num_of_stones_to_take=MAX_NUM_OF_STONES_TO_TAKE, verbose=VERBOSE)
+    #game = Nim(no_of_starting_stones=NO_OF_STARTING_STONES, max_num_of_stones_to_take=MAX_NUM_OF_STONES_TO_TAKE, verbose=VERBOSE)
     #game = Ledge(init_board=B_INIT, verbose=VERBOSE)
+    game = Hex(size=3)
     gameController = GameController(game)
     START_STATE = gameController.get_game_state()
 
@@ -42,6 +46,8 @@ if __name__ == '__main__':
 
             if gameController.game_is_won():
                 print("EPISODE", episode, ":", player, "wins!\n")
+                #gameController.visualize()
+                #breakpoint()
                 gameController.register_victory(player)
                 if episode % SUMMARIZE_STATS_EVERY_NTH_EPISODE == 0:
                     gameController.summarize_stats()

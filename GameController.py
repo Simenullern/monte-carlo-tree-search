@@ -61,3 +61,6 @@ class GameController:
     def make_move(self, move, player):
         self.game.make_move(move, player)
         return move
+
+    def visualize(self):
+        self.game.visualize()
