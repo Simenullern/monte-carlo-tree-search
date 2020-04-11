@@ -48,6 +48,7 @@ if __name__ == '__main__':
         #breakpoint()
 
         gameController.reset_game(verbose=VERBOSE)
+        gameController.make_move((0, 0), 'Player1')
         searchTree = SearchTree(START_STATE, EXPLORATION_BONUS_C, ACTOR)
         GAME_CYCLE = cycle(['Player1', 'Player2']) if STARTING_PLAYER == 1 \
             else cycle(['Player2', 'Player1']) if STARTING_PLAYER == 2 \

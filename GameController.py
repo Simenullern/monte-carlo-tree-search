@@ -16,6 +16,9 @@ class GameController:
     def get_game_state(self):
         return copy.deepcopy(self.game.get_state())
 
+    def get_board_size(self):
+        return self.game.size
+
     def get_succ_state(self, action):
         this = copy.deepcopy(self)
         this.make_move(action, "_")
