@@ -15,11 +15,22 @@ class Hex:
         self.potential_neighbors = [(-1, 1), (-1, 0), (0, -1), (0, 1), (1, 0), (1, -1)]
         self.init()
 
-    def get_size(self):
-        return self.size
+    @staticmethod
+    def get_number_of_cells(size):
+        return size * size
 
     def get_state(self):
-        return self.cells
+        out = []
+        for r in range(0, len(self.cells)):
+            for c in range(0, len(self.cells[r])):
+                current_cell = self.cells[r][c]
+                if current_cell.get_fill() == 'red':
+                    out.append(1)
+                elif current_cell.get_fill() == 'black':
+                    out.append(2)
+                else:
+                    out.append(0)
+        return out
 
     def get_succ_state(self, action):
         cop = copy.deepcopy(self)

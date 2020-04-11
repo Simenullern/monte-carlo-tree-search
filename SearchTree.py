@@ -1,15 +1,17 @@
 from itertools import cycle
-
+import torch
 from Node import Node
 import Utils
 
 
 class SearchTree:
-    def __init__(self, start_state, exploration_bonus_c):
+    def __init__(self, start_state, exploration_bonus_c, actor):
         self.root = Node(state=start_state, parent=None, action_from_parent=None)
         self.tree_policy = []  # List of actions
         self.start_state = start_state
         self.exploration_bonus_c = exploration_bonus_c
+        self.actor = actor
+        self.actor.net.double()
 
     def add_to_tree_policy(self, action):
         self.tree_policy.append(action)
@@ -36,7 +38,10 @@ class SearchTree:
             simulation_controller = episode_game_controller.get_copy_for_simulation(disable_verbosity=True)
             game_cycle_in_simulation = cycle(['Player1', 'Player2']) if player == 'Player1' else cycle(
                 ['Player2', 'Player1'])
-            first_move, reward = self.leaf_evaluation(player, game_cycle_in_simulation, simulation_controller)
+            first_move, reward = self.leaf_evaluation(player,
+                                                      game_cycle_in_simulation,
+                                                      simulation_controller,
+                                                      default_policy=self.actor)
             self.backprop(reward, first_move)
 
 
@@ -53,7 +58,14 @@ class SearchTree:
                 else:
                     gameController.make_random_move(player)
             else:
-                raise NotImplementedError("Only a default policy using random move is implemented yet")
+                current_state = gameController.get_game_state()
+                player = int(player_evaluating[-1])
+                state_with_player = torch.tensor([player] + current_state).double()
+                breakpoint()
+                if first_move is None:
+                    first_move = default_policy.forward(state_with_player) #re-normalize only used states
+                else:
+                    default_policy.forward(current_state)
 
             if gameController.game_is_won():
                 if player == player_evaluating:
