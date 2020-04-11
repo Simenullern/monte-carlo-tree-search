@@ -19,8 +19,6 @@ class Hex:
     def get_number_of_cells(size):
         return size * size
 
-
-
     def get_state(self):
         out = []
         for r in range(0, len(self.cells)):

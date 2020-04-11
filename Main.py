@@ -20,10 +20,10 @@ BOARD_SIZE = 3
 
 VERBOSE = False
 NUM_EPISODES = 30
-NUM_OF_SIMULATIONS = 500
+NUM_OF_SIMULATIONS = 800
 EXPLORATION_BONUS_C = 1
 SUMMARIZE_STATS_EVERY_NTH_EPISODE = 15
-STARTING_PLAYER = 1
+STARTING_PLAYER = 2
 
 
 HIDDEN_LAYERS = [16, 12]
@@ -33,7 +33,7 @@ OPTIMIZER = 'sgd'  #adagrad, sgd, rmsprop, 'adam'
 
 ACTOR = Actor(BOARD_SIZE, HIDDEN_LAYERS, LEARNING_RATE, ACTIVATION, OPTIMIZER)
 
-print(summary(ACTOR.net, input_size=(1, Hex.get_number_of_cells(BOARD_SIZE) + 1)))
+#print(summary(ACTOR.net, input_size=(1, Hex.get_number_of_cells(BOARD_SIZE) + 1)))
 
 #cbreakpoint()
 
@@ -48,7 +48,7 @@ if __name__ == '__main__':
         #breakpoint()
 
         gameController.reset_game(verbose=VERBOSE)
-        gameController.make_move((0, 0), 'Player1')
+        #gameController.make_move((0, 0), 'Player1')
         searchTree = SearchTree(START_STATE, EXPLORATION_BONUS_C, ACTOR)
         GAME_CYCLE = cycle(['Player1', 'Player2']) if STARTING_PLAYER == 1 \
             else cycle(['Player2', 'Player1']) if STARTING_PLAYER == 2 \

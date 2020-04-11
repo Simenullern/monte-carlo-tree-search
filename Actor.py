@@ -15,8 +15,6 @@ class Actor:
         modules.append(torch.nn.Linear(hidden_layers[-1], Hex.get_number_of_cells(board_size)))
         modules.append(torch.nn.Softmax())
 
-        print(Config.ACTIVATIONS[activation])
-
         self.net = torch.nn.Sequential(*modules)
         self.criterion = torch.nn.CrossEntropyLoss()
         self.optimizer = Config.OPTIMIZERS[optimizer](self.net.parameters(), lr=learning_rate)
