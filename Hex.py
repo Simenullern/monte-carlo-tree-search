@@ -34,15 +34,14 @@ class Hex:
 
     def get_succ_state(self, action):
         cop = copy.deepcopy(self)
-        cop.verbose = False
         cop.make_move(action, "_")
         return cop.get_state()
 
-    def init(self, verbose = False):
+    def init(self):
         for i in range(0, len(self.cells)):
             row = self.cells[i]
             for j in range(0, len(row)):
-                row[j] = BoardCell(loc=(i,j))
+                row[j] = BoardCell(loc=(i, j))
         self.register_neighbors()
 
     def register_neighbors(self):
@@ -144,7 +143,7 @@ class Hex:
                 if current_cell.is_filled():
                     node_colors.append(current_cell.get_fill())
                 else:
-                    node_colors.append('lightgray')
+                    node_colors.append('darkgray')
                 G.add_node((r, c))
 
         edge_colors = []
@@ -184,7 +183,7 @@ class Hex:
         options = {
             'node_size': 300,
             'font_size': 8,
-            'font_color': 'black',
+            'font_color': 'white',
             'node_color': node_colors,
             'edge_color': edge_colors,
             'width': edge_widths,

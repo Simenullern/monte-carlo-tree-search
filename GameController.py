@@ -3,9 +3,10 @@ import copy
 
 
 class GameController:
-    def __init__(self, game):
+    def __init__(self, game, visualize):
         self.game = game
         self.games_won = {'Player1': 0, 'Player2': 0}
+        self.visualize_moves = visualize
 
     def summarize_stats(self):
         num_of_games = self.games_won['Player1'] + self.games_won['Player2']
@@ -24,20 +25,16 @@ class GameController:
         this.make_move(action, "_")
         return this.get_game_state()
 
-    def get_copy_for_simulation(self, disable_verbosity=True):
+    def get_copy_for_simulation(self, visualization = True):
         this = copy.deepcopy(self)
-        if disable_verbosity:
-            this.disable_verbosity()
+        this.visualize_moves = visualization
         return this
-
-    def disable_verbosity(self):
-        self.game.verbose = False
 
     def register_victory(self, player):
         self.games_won[player] += 1
 
-    def reset_game(self, verbose):
-        self.game.init(verbose)
+    def reset_game(self):
+        self.game.init()
 
     def game_is_won(self):
         return self.game.is_won()
@@ -63,6 +60,8 @@ class GameController:
 
     def make_move(self, move, player):
         self.game.make_move(move, player)
+        if self.visualize_moves:
+            self.visualize()
         return move
 
     def visualize(self):

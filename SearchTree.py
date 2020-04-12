@@ -3,7 +3,6 @@ import torch
 from Node import Node
 import Utils
 import numpy as np
-from scipy.special import softmax
 
 
 class SearchTree:
@@ -33,11 +32,11 @@ class SearchTree:
             current_leaf.add_child(action, new_leaf)
 
     def simulate_games_to_find_move(self, episode_game_controller, player, number_of_simulations):
-        simulation_controller = episode_game_controller.get_copy_for_simulation(disable_verbosity=True)
+        simulation_controller = episode_game_controller.get_copy_for_simulation(visualization=False)
         self.node_expand_all_children(simulation_controller)
 
         for simulation in range(0, number_of_simulations):
-            simulation_controller = episode_game_controller.get_copy_for_simulation(disable_verbosity=True)
+            simulation_controller = episode_game_controller.get_copy_for_simulation(visualization=False)
             game_cycle_in_simulation = cycle(['Player1', 'Player2']) if player == 'Player1' else cycle(
                 ['Player2', 'Player1'])
             first_move, reward = self.leaf_evaluation(player,
@@ -51,7 +50,6 @@ class SearchTree:
         return self.get_move()
 
     def leaf_evaluation(self, player_evaluating, cycle, gameController, default_policy='random_move'):
-        gameController.verbosity = True
         first_move = None
         for player in cycle:
             if default_policy == 'random_move':
@@ -63,25 +61,20 @@ class SearchTree:
             current_state = gameController.get_game_state()
             state_with_player = torch.tensor([int(player[-1])] + current_state).double()
 
-            #print(current_state)
-            #breakpoint()
+            # Maybe replace player 2 entries with -1 or something?
 
             softmax_distr = default_policy.forward(state_with_player).detach().numpy()
-            softmax_distr = self.re_normalize(current_state, softmax_distr)
+            softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
 
-            #print(softmax_distr)
-            #breakpoint()
-            #print(softmax_distr)
-            #breakpoint()
-            ## pick move according to softmax distribution
-            a = np.array([i for i in range(0, len(softmax_distr))])
-            action = np.random.choice(a, p=softmax_distr)
+            a = np.array([i for i in range(0, len(softmax_distr_re_normalized))])
+            action = np.random.choice(a, p=softmax_distr_re_normalized)
             row = action // gameController.get_board_size()
             col = action % gameController.get_board_size()
             if first_move is None:
                 first_move = (row, col)
-            #print(action, (row, col))
-            #breakpoint()
+
+            #print(player, "chose move", action, (row, col), "from state", current_state)
+
             gameController.make_move((row, col), player)
 
             if gameController.game_is_won():
@@ -89,37 +82,6 @@ class SearchTree:
                     return first_move, 1
                 else:
                     return first_move, -1
-
-    def re_normalize(self, state, softmax_distr):
-        delete_indexes = []
-        deletions = []
-
-        for i in range(0, len(state)):
-            if not state[i] == 0:
-                deletions.append(state[i])
-                delete_indexes.append(i)
-
-        deleted = np.delete(softmax_distr, delete_indexes, axis=0)
-
-        softmax_distr = softmax(deleted)
-
-        c = 0
-        new_distr = []
-        for i in range(0, len(state)):
-            if state[i] == 0:
-                new_distr.append(softmax_distr[c])
-                c += 1
-            else:
-                new_distr.append(0)
-
-        #assert(c == len(delete_indexes))
-        #breakpoint()
-
-        #print(state, softmax_distr)
-        #print(deleted)
-        #print(new_distr)
-        #breakpoint
-        return new_distr
 
     def backprop(self, reward, first_move_from_leaf_in_tree_search):
         leaf = self.tree_search(self.tree_policy)
