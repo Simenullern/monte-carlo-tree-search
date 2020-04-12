@@ -13,8 +13,11 @@ class SearchTree:
         self.start_state = start_state
         self.exploration_bonus_c = exploration_bonus_c
         self.actor = actor
-        self.actor.net.double()
+        #self.actor.net.double()
         self.replay_buffer = []
+
+    def get_replay_buffer(self):
+        return self.replay_buffer
 
     def add_to_tree_policy(self, action):
         self.tree_policy.append(action)
@@ -25,17 +28,17 @@ class SearchTree:
             node = node.get_child(action)
         return node
 
-    def node_expand_all_children(self, controller):
+    def node_expand_all_children(self, controller, player):
         current_leaf = self.tree_search(self.tree_policy)
         all_available_moves = controller.get_all_valid_moves()
         for action in all_available_moves:
-            succ_state = controller.get_succ_state(action)
+            succ_state = controller.get_succ_state(action, player)
             new_leaf = Node(state=succ_state, parent=current_leaf, action_from_parent=action)
             current_leaf.add_child(action, new_leaf)
 
     def simulate_games_to_find_move(self, episode_game_controller, player, number_of_simulations):
         simulation_controller = episode_game_controller.get_copy_for_simulation(visualization=False)
-        self.node_expand_all_children(simulation_controller)
+        self.node_expand_all_children(simulation_controller, player)
 
         for simulation in range(0, number_of_simulations):
             simulation_controller = episode_game_controller.get_copy_for_simulation(visualization=False)
@@ -45,7 +48,6 @@ class SearchTree:
                 self.leaf_evaluation(player, game_cycle_in_simulation, simulation_controller, default_policy=self.actor)
             self.backprop(reward, first_move)
 
-
             # Do we even use the action distr??? maybe not
 
 
@@ -53,11 +55,11 @@ class SearchTree:
 
         # Add to replay_buffer
         current_state = episode_game_controller.get_game_state()
-        state_with_player = torch.tensor([int(player[-1])] + current_state).double()
+        state_with_player = torch.tensor([int(player[-1])] + current_state).float()
         normalized_visit_counts = self.get_normalized_visit_counts(current_state)
         self.replay_buffer.append((state_with_player, normalized_visit_counts))
 
-        return self.get_move()
+        return self.make_move_from_distribution(normalized_visit_counts)
 
     def leaf_evaluation(self, player_evaluating, cycle, gameController, default_policy='random_move'):
         first_move = None
@@ -69,21 +71,19 @@ class SearchTree:
                     gameController.make_random_move(player)
 
             current_state = gameController.get_game_state()
-            state_with_player = torch.tensor([int(player[-1])] + current_state).double()
+            state_with_player = torch.tensor([int(player[-1])] + current_state).float()
 
             # Maybe replace player 2 entries with -1 or something?
 
             softmax_distr = default_policy.forward(state_with_player).detach().numpy()
             softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
 
-            a = np.array([i for i in range(0, len(softmax_distr_re_normalized))])
-            action = np.random.choice(a, p=softmax_distr_re_normalized)
-            row = action // gameController.get_board_size()
-            col = action % gameController.get_board_size()
-            if first_move is None:
-                first_move = (row, col)
+            action = self.make_move_from_distribution(softmax_distr_re_normalized)
 
-            gameController.make_move((row, col), player)
+            if first_move is None:
+                first_move = action
+
+            gameController.make_move(action, player)
 
             if gameController.game_is_won():
                 #print(player, "chose move", action, (row, col), "from state", current_state, "to win the game")
@@ -107,6 +107,14 @@ class SearchTree:
         decision_point = self.tree_search(self.tree_policy)
         return decision_point.get_move(self.exploration_bonus_c)
 
+    def make_move_from_distribution(self, distribution_normalized):
+        board_size = int(math.sqrt(len(self.root.children)))
+        a = np.array([i for i in range(0, len(distribution_normalized))])
+        action = np.random.choice(a, p=distribution_normalized)
+        row = action // board_size
+        col = action % board_size
+        return (row, col)
+
     def get_normalized_visit_counts(self, current_state):
         #print("current game state when calc visit counts", current_state)
         visit_counts = []
@@ -121,7 +129,10 @@ class SearchTree:
                 col = cell % board_size
                 key = (row, col)
                 #print(board_size, row, col)
-                visit_counts.append(decision_point.qsa_count[key])
+                if key in decision_point.qsa_count.keys():
+                    visit_counts.append(decision_point.qsa_count[key])
+                else:
+                    visit_counts.append(0)  # Action never selected during default policy and hence never visited
 
         normalized_visit_counts = [float(i) / sum(visit_counts) for i in visit_counts]
         #print("visit counts", visit_counts, "len", len(visit_counts))
