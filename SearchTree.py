@@ -3,6 +3,7 @@ import torch
 from Node import Node
 import Utils
 import numpy as np
+import math
 
 
 class SearchTree:
@@ -13,6 +14,7 @@ class SearchTree:
         self.exploration_bonus_c = exploration_bonus_c
         self.actor = actor
         self.actor.net.double()
+        self.replay_buffer = []
 
     def add_to_tree_policy(self, action):
         self.tree_policy.append(action)
@@ -39,14 +41,22 @@ class SearchTree:
             simulation_controller = episode_game_controller.get_copy_for_simulation(visualization=False)
             game_cycle_in_simulation = cycle(['Player1', 'Player2']) if player == 'Player1' else cycle(
                 ['Player2', 'Player1'])
-            first_move, reward = self.leaf_evaluation(player,
-                                                      game_cycle_in_simulation,
-                                                      simulation_controller,
-                                                      default_policy=self.actor)
+            first_move, reward, action_distr =\
+                self.leaf_evaluation(player, game_cycle_in_simulation, simulation_controller, default_policy=self.actor)
             self.backprop(reward, first_move)
 
 
+            # Do we even use the action distr??? maybe not
+
+
         #Utils.print_tree_dfs(self.root)
+
+        # Add to replay_buffer
+        current_state = episode_game_controller.get_game_state()
+        state_with_player = torch.tensor([int(player[-1])] + current_state).double()
+        normalized_visit_counts = self.get_normalized_visit_counts(current_state)
+        self.replay_buffer.append((state_with_player, normalized_visit_counts))
+
         return self.get_move()
 
     def leaf_evaluation(self, player_evaluating, cycle, gameController, default_policy='random_move'):
@@ -73,15 +83,15 @@ class SearchTree:
             if first_move is None:
                 first_move = (row, col)
 
-            #print(player, "chose move", action, (row, col), "from state", current_state)
-
             gameController.make_move((row, col), player)
 
             if gameController.game_is_won():
+                #print(player, "chose move", action, (row, col), "from state", current_state, "to win the game")
                 if player == player_evaluating:
-                    return first_move, 1
+                    return first_move, 1, softmax_distr_re_normalized
                 else:
-                    return first_move, -1
+                    return first_move, -1, softmax_distr_re_normalized
+
 
     def backprop(self, reward, first_move_from_leaf_in_tree_search):
         leaf = self.tree_search(self.tree_policy)
@@ -96,6 +106,28 @@ class SearchTree:
     def get_move(self):
         decision_point = self.tree_search(self.tree_policy)
         return decision_point.get_move(self.exploration_bonus_c)
+
+    def get_normalized_visit_counts(self, current_state):
+        #print("current game state when calc visit counts", current_state)
+        visit_counts = []
+        decision_point = self.tree_search(self.tree_policy)
+
+        for cell in range(0, len(current_state)):
+            if not current_state[cell] == 0:
+                visit_counts.append(0)
+            else:
+                board_size = int(math.sqrt(len(self.root.children)))
+                row = cell // board_size
+                col = cell % board_size
+                key = (row, col)
+                #print(board_size, row, col)
+                visit_counts.append(decision_point.qsa_count[key])
+
+        normalized_visit_counts = [float(i) / sum(visit_counts) for i in visit_counts]
+        #print("visit counts", visit_counts, "len", len(visit_counts))
+        #print("normalized visit counts", normalized_visit_counts)
+        #breakpoint()
+        return normalized_visit_counts
 
     def reset_stats(self):
         node = self.root

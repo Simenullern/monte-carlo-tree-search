@@ -16,7 +16,7 @@ MAX_NUM_OF_STONES_TO_TAKE = 3
 # LEDGE
 B_INIT = [1, 1, 2, 1, 1]
 # HEX
-BOARD_SIZE = 7
+BOARD_SIZE = 3
 
 VISUALIZE_MOVES = True
 NUM_EPISODES = 30
@@ -48,13 +48,13 @@ if __name__ == '__main__':
 
         gameController.reset_game()
         #gameController.make_move((0, 0), 'Player1')
-        searchTree = SearchTree(START_STATE, EXPLORATION_BONUS_C, ACTOR)
+        searchTree = SearchTree(START_STATE, EXPLORATION_BONUS_C, ACTOR)  # Here the entire thing is reset
         GAME_CYCLE = cycle(['Player1', 'Player2']) if STARTING_PLAYER == 1 \
             else cycle(['Player2', 'Player1']) if STARTING_PLAYER == 2 \
             else cycle((Utils.shuffle(['Player2', 'Player1'])))
 
         for player in GAME_CYCLE:
-            searchTree.reset_stats()
+            searchTree.reset_stats()  # Here some things are reset
             action = searchTree.simulate_games_to_find_move(gameController, player, NUM_OF_SIMULATIONS)
             gameController.make_move(action, player)
             searchTree.add_to_tree_policy(action)
