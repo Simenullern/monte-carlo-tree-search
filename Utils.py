@@ -60,3 +60,13 @@ def re_normalize(state, softmax_distr):
     #breakpoint()
 
     return new_distr
+
+
+def make_move_from_distribution(distribution_normalized, board_size):
+    #print(distribution_normalized)
+    #breakpoint()
+    a = np.array([i for i in range(0, len(distribution_normalized))])
+    action = np.random.choice(a, p=distribution_normalized)
+    row = action // board_size
+    col = action % board_size
+    return (row, col)

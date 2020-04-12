@@ -59,7 +59,8 @@ class SearchTree:
         normalized_visit_counts = self.get_normalized_visit_counts(current_state)
         self.replay_buffer.append((state_with_player, normalized_visit_counts))
 
-        return self.make_move_from_distribution(normalized_visit_counts)
+        board_size = int(math.sqrt(len(self.root.children)))
+        return Utils.make_move_from_distribution(normalized_visit_counts, board_size)
 
     def leaf_evaluation(self, player_evaluating, cycle, gameController, default_policy='random_move'):
         first_move = None
@@ -78,7 +79,8 @@ class SearchTree:
             softmax_distr = default_policy.forward(state_with_player).detach().numpy()
             softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
 
-            action = self.make_move_from_distribution(softmax_distr_re_normalized)
+            board_size = int(math.sqrt(len(self.root.children)))
+            action = Utils.make_move_from_distribution(softmax_distr_re_normalized, board_size)
 
             if first_move is None:
                 first_move = action
@@ -106,16 +108,6 @@ class SearchTree:
     def get_move(self):
         decision_point = self.tree_search(self.tree_policy)
         return decision_point.get_move(self.exploration_bonus_c)
-
-    def make_move_from_distribution(self, distribution_normalized):
-        #print(distribution_normalized)
-        #breakpoint()
-        board_size = int(math.sqrt(len(self.root.children)))
-        a = np.array([i for i in range(0, len(distribution_normalized))])
-        action = np.random.choice(a, p=distribution_normalized)
-        row = action // board_size
-        col = action % board_size
-        return (row, col)
 
     def get_normalized_visit_counts(self, current_state):
         #print("current game state when calc visit counts", current_state)
