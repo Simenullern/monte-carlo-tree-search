@@ -17,7 +17,7 @@ ACTIVATION = 'relu'  #'sigmoid', 'tanh', 'relu'
 OPTIMIZER = 'adam'  #adagrad, sgd, rmsprop, 'adam'
 RANDOM_MINIBATCH_SIZE = 50
 
-M_GAMES_TO_PLAY_IN_TOPP = 10
+M_GAMES_TO_PLAY_IN_TOPP = 100
 
 ACTIVATIONS = {
     'linear': torch.nn.Linear,
