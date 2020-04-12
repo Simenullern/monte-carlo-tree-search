@@ -1,49 +1,19 @@
 from itertools import cycle
-from torchsummary import summary
-import torch
 
-import Config
+from Config import *
 import Utils
-from Nim import Nim
-from Ledge import Ledge
 from Hex import Hex
 from Actor import Actor
 from GameController import GameController
 from SearchTree import SearchTree
 
-# NIM
-NO_OF_STARTING_STONES = 9
-MAX_NUM_OF_STONES_TO_TAKE = 3
-# LEDGE
-B_INIT = [1, 1, 2, 1, 1]
-# HEX
-BOARD_SIZE = 3
-
-VISUALIZE_MOVES = False
-NUM_EPISODES = 30
-NUM_OF_SIMULATIONS = 10
-EXPLORATION_BONUS_C = 1
-SAVE_PARAMS_EVERY_NTH_EPISODE = 10
-STARTING_PLAYER = 1
-
-
-HIDDEN_LAYERS = [16, 12]
-LEARNING_RATE = 0.01
-ACTIVATION = 'sigmoid'  #'sigmoid', 'tanh', 'relu'
-OPTIMIZER = 'adam'  #adagrad, sgd, rmsprop, 'adam'
-RANDOM_MINIBATCH_SIZE = 10
-
-#print(summary(ACTOR.net, input_size=(1, Hex.get_number_of_cells(BOARD_SIZE) + 1)))
-
-#cbreakpoint()
 
 if __name__ == '__main__':
-    #game = Nim(no_of_starting_stones=NO_OF_STARTING_STONES, max_num_of_stones_to_take=MAX_NUM_OF_STONES_TO_TAKE, verbose=VERBOSE)
-    #game = Ledge(init_board=B_INIT, verbose=VERBOSE)
     game = Hex(size=BOARD_SIZE)
     gameController = GameController(game, VISUALIZE_MOVES)
     start_state = gameController.get_game_state()
     actor = Actor(BOARD_SIZE, HIDDEN_LAYERS, LEARNING_RATE, ACTIVATION, OPTIMIZER)
+    actor.save(episode=0)
     replay_buffer = []  # For learning
 
     for episode in range(1, NUM_EPISODES+1):
@@ -66,7 +36,7 @@ if __name__ == '__main__':
                 #print(Utils.print_tree_dfs(searchTree.root))
                 #breakpoint()
                 replay_buffer += searchTree.get_replay_buffer()
-                actor.train(replay_buffer, RANDOM_MINIBATCH_SIZE)
+                actor = actor.train(replay_buffer, RANDOM_MINIBATCH_SIZE)
                 gameController.register_victory(player)
                 if episode % SAVE_PARAMS_EVERY_NTH_EPISODE == 0:
                     gameController.summarize_stats()

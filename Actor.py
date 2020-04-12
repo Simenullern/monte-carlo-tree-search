@@ -25,9 +25,9 @@ class Actor:
         return self.net(X)
 
     def train(self, replay_buffer, RANDOM_MINIBATCH_SIZE):
-        # Maybe pick random minibatch of replay_buffer
+        training_set = Utils.shuffle(replay_buffer)[:RANDOM_MINIBATCH_SIZE]
         self.net.train()
-        for example in Utils.shuffle(replay_buffer)[:RANDOM_MINIBATCH_SIZE]:
+        for example in training_set:
             pred = self.net(example[0])
             visit_distr = torch.tensor(example[1])
             #print("pred", pred, "with target", visit_distr)
@@ -38,7 +38,8 @@ class Actor:
             #breakpoint()
             self.optimizer.zero_grad()
             #breakpoint()
+        return self
 
     def save(self, episode):
         state_dict = self.net.state_dict()
-        torch.save(state_dict, './models/net_ver0_'+str(episode))
+        torch.save(state_dict, './models/net_ver0_episode'+str(episode)+".pt")
