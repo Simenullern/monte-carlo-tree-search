@@ -17,19 +17,11 @@ class Tournament:
             model.eval()
             models[filename] = model
 
-        for key in models:
-            print(key)
-            print(models[key].state_dict())
-            print("\n")
-
-        print(models['net_ver0_episode20.pt'] == models['net_ver0_episode30.pt'])
-
         state = torch.tensor([1, 0, 0, 0, 0, 0, 0, 0, 0, 0]).float()
         for key in models:
             o = models[key].forward(state)
             print(o)
 
-        breakpoint()
         return models
 
 

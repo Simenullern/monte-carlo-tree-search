@@ -28,6 +28,7 @@ class Actor:
         training_set = Utils.shuffle(replay_buffer)[:RANDOM_MINIBATCH_SIZE]
         self.net.train()
         for example in training_set:
+            self.optimizer.zero_grad()
             pred = self.net(example[0])
             visit_distr = torch.tensor(example[1])
             #print("pred", pred, "with target", visit_distr)
@@ -36,7 +37,7 @@ class Actor:
             #breakpoint()
             loss.backward()
             #breakpoint()
-            self.optimizer.zero_grad()
+            self.optimizer.step()
             #breakpoint()
         return self
 

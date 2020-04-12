@@ -36,6 +36,7 @@ if __name__ == '__main__':
                 #print(Utils.print_tree_dfs(searchTree.root))
                 #breakpoint()
                 replay_buffer += searchTree.get_replay_buffer()
+                print("len of repaly buffer", len(replay_buffer))
                 actor = actor.train(replay_buffer, RANDOM_MINIBATCH_SIZE)
                 gameController.register_victory(player)
                 if episode % SAVE_PARAMS_EVERY_NTH_EPISODE == 0:

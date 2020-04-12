@@ -108,6 +108,8 @@ class SearchTree:
         return decision_point.get_move(self.exploration_bonus_c)
 
     def make_move_from_distribution(self, distribution_normalized):
+        #print(distribution_normalized)
+        #breakpoint()
         board_size = int(math.sqrt(len(self.root.children)))
         a = np.array([i for i in range(0, len(distribution_normalized))])
         action = np.random.choice(a, p=distribution_normalized)

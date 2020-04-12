@@ -12,7 +12,7 @@ STARTING_PLAYER = 1
 
 
 HIDDEN_LAYERS = [16, 12]
-LEARNING_RATE = 10
+LEARNING_RATE = 0.01
 ACTIVATION = 'relu'  #'sigmoid', 'tanh', 'relu'
 OPTIMIZER = 'adam'  #adagrad, sgd, rmsprop, 'adam'
 RANDOM_MINIBATCH_SIZE = 10
