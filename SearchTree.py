@@ -12,24 +12,13 @@ class SearchTree:
         self.root = Node(state=start_state, parent=None, action_from_parent=None)
         self.root.increment_visited_count()
         self.board_size = board_size
-        #self.tree_policy = []  # List of actions
         self.exploration_bonus_c = exploration_bonus_c
         self.epsilon = epsilon
         self.actor = actor
-        #self.actor.net.double()
         self.replay_buffer = []
 
     def get_replay_buffer(self):
         return self.replay_buffer
-
-    def add_to_tree_policy(self, action):
-        self.tree_policy.append(action)
-
-    def tree_search(self, tree_policy):
-        node = self.root
-        for action in tree_policy:
-            node = node.get_child(action)
-        return node
 
     def node_expand_all_children(self, controller, player):
         all_available_moves = controller.get_all_valid_moves()
@@ -69,7 +58,15 @@ class SearchTree:
 
     def leaf_evaluation(self, player_evaluating, cycle, gameController, default_policy='random_move'):
         for player in cycle:
+            if gameController.game_is_won():
+                if player == player_evaluating:
+                    return 1
+                else:
+                    return -1
+
             if default_policy == 'random_move':
+                    if gameController.get_random_move() is None:
+                        breakpoint()
                     gameController.make_random_move(player)
             else:
                 current_state = gameController.get_game_state()
@@ -78,18 +75,14 @@ class SearchTree:
                 # Maybe replace player 2 entries with -1 or something?
                 softmax_distr = default_policy.forward(state_with_player).detach().numpy()
                 softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
+                if not sum(softmax_distr_re_normalized) == 1:
+                    breakpoint()
 
-                action = Utils.make_move_from_distribution(softmax_distr_re_normalized, self.board_size)
-
+                action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, self.board_size)
                 gameController.make_move(action, player)
 
-            if gameController.game_is_won():
-                if player == player_evaluating:
-                    return 1
-                else:
-                    return -1
-
     def backprop(self, reward, first_move_from_leaf_in_tree_search):
+        self.root.increment_visited_count()
         node = self.root.get_child(first_move_from_leaf_in_tree_search)
         action = first_move_from_leaf_in_tree_search
         #breakpoint()

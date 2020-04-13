@@ -52,9 +52,9 @@ if __name__ == '__main__':
 
         for game in range(1, M_GAMES_TO_PLAY_IN_TOPP+1):
             gameController.reset_game()
-            GAME_CYCLE = cycle(['Player1', 'Player2']) if STARTING_PLAYER == 1 \
-                else cycle(['Player2', 'Player1']) if STARTING_PLAYER == 2 \
-                else cycle((Utils.shuffle(['Player2', 'Player1'])))
+            # Alternate between who goes first
+            GAME_CYCLE = cycle(['Player1', 'Player2']) if game % 2 == 0 \
+                else cycle(['Player2', 'Player1'])
 
             for player in GAME_CYCLE:
                 current_state = gameController.get_game_state()
@@ -64,7 +64,7 @@ if __name__ == '__main__':
 
                 softmax_distr = net_to_use.forward(state_with_player).detach().numpy()
                 softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
-                action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, BOARD_SIZE)
+                action = Utils.make_move_from_distribution(softmax_distr_re_normalized, BOARD_SIZE)
                 gameController.make_move(action, player)
 
                 if gameController.game_is_won():

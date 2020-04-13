@@ -1,6 +1,7 @@
 import random
 import numpy as np
 from Stack import Stack
+from sklearn.preprocessing import normalize
 
 
 def shuffle(arr):
@@ -33,7 +34,8 @@ def re_normalize(state, softmax_distr):
             delete_indexes.append(i)
 
     deleted = np.delete(softmax_distr, delete_indexes, axis=0)
-    re_normalized = [float(i)/sum(deleted) for i in deleted]
+
+    re_normalized = np.array([float(i)/sum(deleted) for i in deleted])
 
     c = 0
     zeros = 0
@@ -46,7 +48,10 @@ def re_normalize(state, softmax_distr):
             new_distr.append(0)
             zeros += 1
 
-    return new_distr
+    p = np.array(new_distr)
+    p /= p.sum()
+
+    return p
 
 
 def make_move_from_distribution(distribution_normalized, board_size):
@@ -58,7 +63,7 @@ def make_move_from_distribution(distribution_normalized, board_size):
 
 
 def make_max_move_from_distribution(distribution_normalized, board_size):
-    action = distribution_normalized.index(max(distribution_normalized))
+    action = np.argmax(distribution_normalized)
     row = action // board_size
     col = action % board_size
     return (row, col)

@@ -28,10 +28,12 @@ if __name__ == '__main__':
             searchTree = SearchTree(root_state, BOARD_SIZE, EXPLORATION_BONUS_C, EPSILON, actor)
             action = searchTree.simulate_games_to_find_move(gameController, player, NUM_OF_SIMULATIONS)
             gameController.make_move(action, player)
+            #print("choosing action", action)
             #Utils.print_tree_dfs(searchTree.root)
             #breakpoint()
-            root_state = searchTree.root.get_child(action)
-            root_state.reset_stats()
+            leaf = searchTree.root.get_child(action)
+            leaf.reset_stats()
+            root_state = leaf.get_state()
 
             if gameController.game_is_won():
                 print("EPISODE", episode, ":", player, "wins")
@@ -43,6 +45,6 @@ if __name__ == '__main__':
                 if episode % SAVE_PARAMS_EVERY_NTH_EPISODE == 0:
                     gameController.summarize_stats()
                     actor.save(episode)
-                    # EPSILON = EPSILON / 2
+                    #EPSILON = EPSILON / 2
                 break
 
