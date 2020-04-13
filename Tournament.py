@@ -25,7 +25,7 @@ class Tournament:
             current_state = [0, 1, 0, 0, 1, 0, 2, 0, 2]
             state_with_player = torch.tensor([1, 0, 1, 0, 0, 1, 0, 2, 0, 2]).float()
             softmax_distr = model.forward(state_with_player).detach().numpy()
-            print(softmax_distr)
+            #print(softmax_distr)
             softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
             print(softmax_distr_re_normalized, '\n')
 
@@ -64,7 +64,7 @@ if __name__ == '__main__':
 
                 softmax_distr = net_to_use.forward(state_with_player).detach().numpy()
                 softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
-                action = Utils.make_move_from_distribution(softmax_distr_re_normalized, BOARD_SIZE)
+                action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, BOARD_SIZE)
                 gameController.make_move(action, player)
 
                 if gameController.game_is_won():

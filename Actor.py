@@ -24,9 +24,11 @@ class Actor:
         self.net.eval()
         return self.net(X)
 
-    def train(self, replay_buffer, RANDOM_MINIBATCH_SIZE):
-        #training_set = Utils.shuffle(replay_buffer)[:RANDOM_MINIBATCH_SIZE]
-        training_set = replay_buffer
+    def train(self, replay_buffer, REPLAY_BUFFER_MAX_SIZE):
+        training_set = Utils.shuffle(replay_buffer)
+        if len(replay_buffer) > 2000:
+            training_set = Utils.shuffle(replay_buffer[:2000])
+
         self.net.train()
         for example in training_set:
             self.optimizer.zero_grad()

@@ -54,9 +54,6 @@ class SearchTree:
                 self.leaf_evaluation(player, game_cycle_in_simulation, simulation_controller, default_policy)
             self.backprop(reward, first_move)
 
-
-        #Utils.print_tree_dfs(self.root)
-
         # Add to replay_buffer
         current_state = episode_game_controller.get_game_state()
         state_with_player = torch.tensor([int(player[-1])] + current_state).float()
@@ -74,7 +71,7 @@ class SearchTree:
                     first_move = gameController.make_random_move(player)
                 else:
                     gameController.make_random_move(player)
-            else:  # default policy is picking maximum action outputed from distirbution of actor
+            else:
                 current_state = gameController.get_game_state()
                 state_with_player = torch.tensor([int(player[-1])] + current_state).float()
 
@@ -92,12 +89,10 @@ class SearchTree:
                 gameController.make_move(action, player)
 
             if gameController.game_is_won():
-                #print(player, "chose move", action, (row, col), "from state", current_state, "to win the game")
                 if player == player_evaluating:
                     return first_move, 1
                 else:
                     return first_move, -1
-
 
     def backprop(self, reward, first_move_from_leaf_in_tree_search):
         leaf = self.tree_search(self.tree_policy)

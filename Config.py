@@ -5,7 +5,7 @@ BOARD_SIZE = 3
 
 VISUALIZE_MOVES = False
 NUM_EPISODES = 100
-NUM_OF_SIMULATIONS = 100
+NUM_OF_SIMULATIONS = 500
 EXPLORATION_BONUS_C = 1
 SAVE_PARAMS_EVERY_NTH_EPISODE = 50
 STARTING_PLAYER = "RANDOM"
@@ -15,8 +15,8 @@ LEARNING_RATE = 0.01  # If too high then probability inputs contain nan
 ACTIVATION = 'sigmoid'  #'sigmoid', 'tanh', 'relu', 'linaer'
 OPTIMIZER = 'adam'  #adagrad, sgd, rmsprop, 'adam'
 
-RANDOM_MINIBATCH_SIZE = 20
-EPSILON = 0.25
+REPLAY_BUFFER_MAX_SIZE = 2000
+EPSILON = 0.1
 
 M_GAMES_TO_PLAY_IN_TOPP = 100
 

@@ -26,7 +26,7 @@ if __name__ == '__main__':
             else cycle((Utils.shuffle(['Player2', 'Player1'])))
 
         for player in GAME_CYCLE:
-            searchTree.reset_stats()  # Here some things are reset
+            searchTree.reset_stats()
             action = searchTree.simulate_games_to_find_move(gameController, player, NUM_OF_SIMULATIONS)
             gameController.make_move(action, player)
             searchTree.add_to_tree_policy(action)
@@ -36,10 +36,11 @@ if __name__ == '__main__':
                 #print(Utils.print_tree_dfs(searchTree.root))
                 #breakpoint()
                 replay_buffer = searchTree.get_replay_buffer()
-                actor = actor.train(replay_buffer, RANDOM_MINIBATCH_SIZE)
+                actor = actor.train(replay_buffer, REPLAY_BUFFER_MAX_SIZE)
                 gameController.register_victory(player)
                 if episode % SAVE_PARAMS_EVERY_NTH_EPISODE == 0:
                     gameController.summarize_stats()
                     actor.save(episode)
+                    # EPSILON = EPSILON / 2
                 break
 
