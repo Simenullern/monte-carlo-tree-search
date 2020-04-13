@@ -27,26 +27,17 @@ def print_tree_dfs(root):
 def re_normalize(state, softmax_distr):
     delete_indexes = []
     deletions = []
-
-    #print("\n original softmax distr \n \t", softmax_distr, "sum", sum(softmax_distr))
-
     for i in range(0, len(state)):
         if not state[i] == 0:
             deletions.append(state[i])
             delete_indexes.append(i)
 
     deleted = np.delete(softmax_distr, delete_indexes, axis=0)
-
-    #print("\n After deleting zeros \n \t", delete_indexes, "deletions", len(deletions))
-
     re_normalized = [float(i)/sum(deleted) for i in deleted]
-
-    #print("\n Renormalizing \n \t", re_normalized, "sum", sum(re_normalized))
 
     c = 0
     zeros = 0
     new_distr = []
-
     for i in range(0, len(state)):
         if state[i] == 0:
             new_distr.append(re_normalized[c])
@@ -55,18 +46,19 @@ def re_normalize(state, softmax_distr):
             new_distr.append(0)
             zeros += 1
 
-    #print("\n Adding zeros again", new_distr, "having added", zeros, "zeros, sum", sum(new_distr))
-
-    #breakpoint()
-
     return new_distr
 
 
 def make_move_from_distribution(distribution_normalized, board_size):
-    #print(distribution_normalized)
-    #breakpoint()
     a = np.array([i for i in range(0, len(distribution_normalized))])
     action = np.random.choice(a, p=distribution_normalized)
+    row = action // board_size
+    col = action % board_size
+    return (row, col)
+
+
+def make_max_move_from_distribution(distribution_normalized, board_size):
+    action = distribution_normalized.index(max(distribution_normalized))
     row = action // board_size
     col = action % board_size
     return (row, col)

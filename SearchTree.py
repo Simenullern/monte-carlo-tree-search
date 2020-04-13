@@ -3,15 +3,17 @@ import torch
 from Node import Node
 import Utils
 import numpy as np
+import random
 import math
 
 
 class SearchTree:
-    def __init__(self, start_state, exploration_bonus_c, actor):
+    def __init__(self, start_state, exploration_bonus_c, epsilon, actor):
         self.root = Node(state=start_state, parent=None, action_from_parent=None)
         self.tree_policy = []  # List of actions
         self.start_state = start_state
         self.exploration_bonus_c = exploration_bonus_c
+        self.epsilon = epsilon
         self.actor = actor
         #self.actor.net.double()
         self.replay_buffer = []
@@ -44,11 +46,13 @@ class SearchTree:
             simulation_controller = episode_game_controller.get_copy_for_simulation(visualization=False)
             game_cycle_in_simulation = cycle(['Player1', 'Player2']) if player == 'Player1' else cycle(
                 ['Player2', 'Player1'])
-            first_move, reward, action_distr =\
-                self.leaf_evaluation(player, game_cycle_in_simulation, simulation_controller, default_policy=self.actor)
-            self.backprop(reward, first_move)
+            default_policy = self.actor
+            if random.uniform(0, 1) < self.epsilon:
+                default_policy = 'random_move'
 
-            # Do we even use the action distr??? maybe not
+            first_move, reward =\
+                self.leaf_evaluation(player, game_cycle_in_simulation, simulation_controller, default_policy)
+            self.backprop(reward, first_move)
 
 
         #Utils.print_tree_dfs(self.root)
@@ -70,29 +74,29 @@ class SearchTree:
                     first_move = gameController.make_random_move(player)
                 else:
                     gameController.make_random_move(player)
+            else:  # default policy is picking maximum action outputed from distirbution of actor
+                current_state = gameController.get_game_state()
+                state_with_player = torch.tensor([int(player[-1])] + current_state).float()
 
-            current_state = gameController.get_game_state()
-            state_with_player = torch.tensor([int(player[-1])] + current_state).float()
+                # Maybe replace player 2 entries with -1 or something?
+                softmax_distr = default_policy.forward(state_with_player).detach().numpy()
+                softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
 
-            # Maybe replace player 2 entries with -1 or something?
+                board_size = int(math.sqrt(len(self.root.children)))
 
-            softmax_distr = default_policy.forward(state_with_player).detach().numpy()
-            softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
+                action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, board_size)
 
-            board_size = int(math.sqrt(len(self.root.children)))
-            action = Utils.make_move_from_distribution(softmax_distr_re_normalized, board_size)
+                if first_move is None:
+                    first_move = action
 
-            if first_move is None:
-                first_move = action
-
-            gameController.make_move(action, player)
+                gameController.make_move(action, player)
 
             if gameController.game_is_won():
                 #print(player, "chose move", action, (row, col), "from state", current_state, "to win the game")
                 if player == player_evaluating:
-                    return first_move, 1, softmax_distr_re_normalized
+                    return first_move, 1
                 else:
-                    return first_move, -1, softmax_distr_re_normalized
+                    return first_move, -1
 
 
     def backprop(self, reward, first_move_from_leaf_in_tree_search):
