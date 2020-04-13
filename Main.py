@@ -41,6 +41,5 @@ if __name__ == '__main__':
                 if episode % SAVE_PARAMS_EVERY_NTH_EPISODE == 0:
                     gameController.summarize_stats()
                     actor.save(episode)
-                    EPSILON = EPSILON / 2
                 break
 

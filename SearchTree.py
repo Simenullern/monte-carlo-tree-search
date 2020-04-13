@@ -84,7 +84,7 @@ class SearchTree:
 
                 board_size = int(math.sqrt(len(self.root.children)))
 
-                action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, board_size)
+                action = Utils.make_move_from_distribution(softmax_distr_re_normalized, board_size)
 
                 if first_move is None:
                     first_move = action
