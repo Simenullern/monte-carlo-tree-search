@@ -41,6 +41,6 @@ class Actor:
             self.optimizer.step()
         return self
 
-    def save(self, episode):
+    def save(self, board_size, episode):
         state_dict = self.net.state_dict()
-        torch.save(state_dict, './models/net_after_episode_'+str(episode)+".pt")
+        torch.save(state_dict, './models/boardsize_' + str(board_size) + '/net_after_episode_'+str(episode)+".pt")

@@ -1,5 +1,4 @@
 from itertools import cycle
-
 from Config import *
 import Utils
 from Hex import Hex
@@ -13,7 +12,7 @@ if __name__ == '__main__':
     gameController = GameController(game, VISUALIZE_MOVES)
     root_state = gameController.get_game_state()
     actor = Actor(BOARD_SIZE, HIDDEN_LAYERS, LEARNING_RATE, ACTIVATION, OPTIMIZER)
-    actor.save(episode=0)
+    actor.save(BOARD_SIZE, episode=0)
     replay_buffer = []
 
     for episode in range(1, NUM_EPISODES+1):
@@ -26,9 +25,6 @@ if __name__ == '__main__':
             searchTree = SearchTree(root_state, BOARD_SIZE, EXPLORATION_BONUS_C, EPSILON, actor)
             action = searchTree.simulate_games_to_find_move(gameController, player, NUM_OF_SIMULATIONS)
             gameController.make_move(action, player)
-            #print("choosing action", action)
-            #Utils.print_tree_dfs(searchTree.root)
-            #breakpoint()
             leaf = searchTree.root.get_child(action)
             leaf.reset_stats()
             root_state = leaf.get_state()
@@ -41,7 +37,7 @@ if __name__ == '__main__':
                 gameController.register_victory(player)
                 if episode % SAVE_PARAMS_EVERY_NTH_EPISODE == 0:
                     gameController.summarize_stats()
-                    actor.save(episode)
+                    actor.save(BOARD_SIZE, episode)
                     #EPSILON = EPSILON /
                 break
 

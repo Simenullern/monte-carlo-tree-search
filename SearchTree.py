@@ -51,7 +51,7 @@ class SearchTree:
         normalized_visit_counts = self.get_normalized_visit_counts(current_state)
         self.replay_buffer.append((state_with_player, normalized_visit_counts))
 
-        return Utils.make_move_from_distribution(normalized_visit_counts, self.board_size)
+        return Utils.make_max_move_from_distribution(normalized_visit_counts, self.board_size)
 
     def leaf_evaluation(self, player_evaluating, cycle, gameController, default_policy='random_move'):
         for player in cycle:
@@ -67,12 +67,12 @@ class SearchTree:
             softmax_distr = default_policy.forward(state_with_player).detach().numpy()
             softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
 
-            if random.uniform(0, 1) < self.epsilon:
-                action = Utils.make_move_from_distribution(softmax_distr_re_normalized, self.board_size)
-                gameController.make_move(action, player)
-            else:
-                action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, self.board_size)
-                gameController.make_move(action, player)
+            #if random.uniform(0, 1) < self.epsilon:
+            action = Utils.make_move_from_distribution(softmax_distr_re_normalized, self.board_size)
+            gameController.make_move(action, player)
+           # else:
+                #action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, self.board_size)
+                #gameController.make_move(action, player)
 
     def backprop(self, reward, first_move_from_leaf_in_tree_search):
         self.root.increment_visited_count()

@@ -1,18 +1,18 @@
 import torch
 
 # HEX
-BOARD_SIZE = 4
+BOARD_SIZE = 3
 
 VISUALIZE_MOVES = False
-NUM_EPISODES = 50
+NUM_EPISODES = 200
 NUM_OF_SIMULATIONS = 500
-EXPLORATION_BONUS_C = 1
-SAVE_PARAMS_EVERY_NTH_EPISODE = 10
+EXPLORATION_BONUS_C = 2   # 1
+SAVE_PARAMS_EVERY_NTH_EPISODE = 50
 STARTING_PLAYER = 0
 
 HIDDEN_LAYERS = [64, 64]
-LEARNING_RATE = 0.005  # If too high then probability inputs might contain nan
-ACTIVATION = 'tanh'  #'sigmoid', 'tanh', 'relu', 'linaer'
+LEARNING_RATE = 0.01  # If too high then probability inputs might contain nan
+ACTIVATION = 'relu'  #'sigmoid', 'tanh', 'relu', 'linaer'
 OPTIMIZER = 'adam'  #adagrad, sgd, rmsprop, 'adam'
 
 REPLAY_BUFFER_MAX_SIZE = 500
