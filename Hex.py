@@ -196,7 +196,7 @@ class Hex:
 
 
 if __name__ == '__main__':
-    Board = Hex(size=3)
+    Board = Hex(size=4)
     Board.visualize()
     print(Board.get_all_valid_moves())
     Board.make_move((1, 1), 'Player1')
@@ -207,5 +207,8 @@ if __name__ == '__main__':
     print(Board.is_won())
     Board.make_move((2, 2), 'Player2')
     print(Board.is_won())
+    Board.make_move((2, 1), 'Player1')
+    print(Board.is_won())
+    Board.make_move((3, 0), 'Player2')
     print(Board.get_state())
     Board.visualize()

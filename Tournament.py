@@ -22,8 +22,8 @@ class Tournament:
             models[filename] = model
             print(filename)
 
-            current_state = [0, 1, 0, 0, 1, 0, -1, 0, -1]
-            state_with_player = torch.tensor([1, 0, 1, 0, 0, 1, 0, -1, 0, -1]).float()
+            current_state = [0, 1, 0, 0, 0, 1, 0, 0, -1, 1, -1, 0, -1, 0, 0, 0]
+            state_with_player = torch.tensor([1, 0, 1, 0, 0, 0, 1, 0, 0, -1, 1, -1, 0, -1, 0, 0, 0]).float()
             softmax_distr = model.forward(state_with_player).detach().numpy()
             #print(softmax_distr)
             softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)

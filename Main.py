@@ -26,8 +26,8 @@ if __name__ == '__main__':
             searchTree = SearchTree(root_state, BOARD_SIZE, EXPLORATION_BONUS_C, EPSILON, actor)
             action = searchTree.simulate_games_to_find_move(gameController, player, NUM_OF_SIMULATIONS)
             gameController.make_move(action, player)
-            print("choosing action", action)
-            Utils.print_tree_dfs(searchTree.root)
+            #print("choosing action", action)
+            #Utils.print_tree_dfs(searchTree.root)
             #breakpoint()
             leaf = searchTree.root.get_child(action)
             leaf.reset_stats()
@@ -35,7 +35,6 @@ if __name__ == '__main__':
 
             if gameController.game_is_won():
                 print("EPISODE", episode, ":", player, "wins")
-                #print(Utils.print_tree_dfs(searchTree.root))
                 #breakpoint()
                 replay_buffer = searchTree.get_replay_buffer()
                 actor = actor.train(replay_buffer, REPLAY_BUFFER_MAX_SIZE, REPLAY_BUFFER_MINIBATCH_SIZE)

@@ -41,11 +41,7 @@ class SearchTree:
             game_cycle_in_simulation = cycle(['Player1', 'Player2']) if player == 'Player2' else cycle(
                 ['Player2', 'Player1'])  # Because player makes tree_action according to tree policy
 
-            default_policy = self.actor
-            if random.uniform(0, 1) < self.epsilon:
-                default_policy = 'random_move'
-
-            reward = self.leaf_evaluation(player, game_cycle_in_simulation, simulation_controller, default_policy)
+            reward = self.leaf_evaluation(player, game_cycle_in_simulation, simulation_controller, self.actor)
             self.backprop(reward, tree_action)
 
         # Add to replay_buffer
@@ -65,20 +61,17 @@ class SearchTree:
                 else:
                     return -1
 
-            if default_policy == 'random_move':
-                    if gameController.get_random_move() is None:
-                        breakpoint()
-                    gameController.make_random_move(player)
-            else:
-                current_state = gameController.get_game_state()
-                player_id = 1 if player[-1] == 1 else -1
-                state_with_player = torch.tensor([player_id] + current_state).float()
+            current_state = gameController.get_game_state()
+            player_id = 1 if player[-1] == 1 else -1
+            state_with_player = torch.tensor([player_id] + current_state).float()
+            softmax_distr = default_policy.forward(state_with_player).detach().numpy()
+            softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
 
-                # Maybe replace player 2 entries with -1 or something?
-                softmax_distr = default_policy.forward(state_with_player).detach().numpy()
-                softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
-
+            if random.uniform(0, 1) < self.epsilon:
                 action = Utils.make_move_from_distribution(softmax_distr_re_normalized, self.board_size)
+                gameController.make_move(action, player)
+            else:
+                action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, self.board_size)
                 gameController.make_move(action, player)
 
     def backprop(self, reward, first_move_from_leaf_in_tree_search):

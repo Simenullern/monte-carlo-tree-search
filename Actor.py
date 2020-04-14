@@ -18,7 +18,7 @@ class Actor:
         modules.append(torch.nn.Softmax()) # Not use? # cross entropy loss: The input is expected to contain raw, unnormalized scores for each class.
 
         self.net = torch.nn.Sequential(*modules)
-        self.criterion = torch.nn.MSELoss()  # Cross entropy. BCE Loss
+        self.criterion = torch.nn.BCEWithLogitsLoss()  # Cross entropy. BCE Loss # MSELoss()
         self.optimizer = Config.OPTIMIZERS[optimizer](self.net.parameters(), lr=learning_rate)
 
     def forward(self, X):
@@ -27,9 +27,9 @@ class Actor:
 
     def train(self, replay_buffer, replay_buffer_max_size, replay_buffer_minibatch_size):
         training_set = replay_buffer
-        if len(replay_buffer) > replay_buffer_max_size:
-            training_set = replay_buffer[:replay_buffer_max_size]
-        training_set = Utils.shuffle(training_set)
+        if len(replay_buffer) > replay_buffer_max_size:  # only keep the latest most entries
+            training_set = replay_buffer[:-replay_buffer_max_size]
+        training_set = Utils.shuffle(training_set)[:replay_buffer_minibatch_size]
 
         self.net.train()
         for example in training_set[:replay_buffer_minibatch_size]:
