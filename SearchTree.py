@@ -50,7 +50,8 @@ class SearchTree:
 
         # Add to replay_buffer
         current_state = episode_game_controller.get_game_state()
-        state_with_player = torch.tensor([int(player[-1])] + current_state).float()
+        player_id = 1 if player[-1] == 1 else -1
+        state_with_player = torch.tensor([player_id] + current_state).float()
         normalized_visit_counts = self.get_normalized_visit_counts(current_state)
         self.replay_buffer.append((state_with_player, normalized_visit_counts))
 
@@ -70,15 +71,14 @@ class SearchTree:
                     gameController.make_random_move(player)
             else:
                 current_state = gameController.get_game_state()
-                state_with_player = torch.tensor([int(player[-1])] + current_state).float()
+                player_id = 1 if player[-1] == 1 else -1
+                state_with_player = torch.tensor([player_id] + current_state).float()
 
                 # Maybe replace player 2 entries with -1 or something?
                 softmax_distr = default_policy.forward(state_with_player).detach().numpy()
                 softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
-                if not sum(softmax_distr_re_normalized) == 1:
-                    breakpoint()
 
-                action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, self.board_size)
+                action = Utils.make_move_from_distribution(softmax_distr_re_normalized, self.board_size)
                 gameController.make_move(action, player)
 
     def backprop(self, reward, first_move_from_leaf_in_tree_search):

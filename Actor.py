@@ -26,9 +26,10 @@ class Actor:
         return self.net(X)
 
     def train(self, replay_buffer, replay_buffer_max_size, replay_buffer_minibatch_size):
-        training_set = Utils.shuffle(replay_buffer)
+        training_set = replay_buffer
         if len(replay_buffer) > replay_buffer_max_size:
-            training_set = Utils.shuffle(replay_buffer[:replay_buffer_max_size])
+            training_set = replay_buffer[:replay_buffer_max_size]
+        training_set = Utils.shuffle(training_set)
 
         self.net.train()
         for example in training_set[:replay_buffer_minibatch_size]:

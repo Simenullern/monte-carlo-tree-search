@@ -14,11 +14,9 @@ if __name__ == '__main__':
     root_state = gameController.get_game_state()
     actor = Actor(BOARD_SIZE, HIDDEN_LAYERS, LEARNING_RATE, ACTIVATION, OPTIMIZER)
     actor.save(episode=0)
-    replay_buffer = []  # For learning
+    replay_buffer = []
 
     for episode in range(1, NUM_EPISODES+1):
-        #breakpoint()
-
         gameController.reset_game()
         GAME_CYCLE = cycle(['Player1', 'Player2']) if STARTING_PLAYER == 1 \
             else cycle(['Player2', 'Player1']) if STARTING_PLAYER == 2 \
@@ -28,8 +26,8 @@ if __name__ == '__main__':
             searchTree = SearchTree(root_state, BOARD_SIZE, EXPLORATION_BONUS_C, EPSILON, actor)
             action = searchTree.simulate_games_to_find_move(gameController, player, NUM_OF_SIMULATIONS)
             gameController.make_move(action, player)
-            #print("choosing action", action)
-            #Utils.print_tree_dfs(searchTree.root)
+            print("choosing action", action)
+            Utils.print_tree_dfs(searchTree.root)
             #breakpoint()
             leaf = searchTree.root.get_child(action)
             leaf.reset_stats()
@@ -45,6 +43,6 @@ if __name__ == '__main__':
                 if episode % SAVE_PARAMS_EVERY_NTH_EPISODE == 0:
                     gameController.summarize_stats()
                     actor.save(episode)
-                    #EPSILON = EPSILON / 2
+                    #EPSILON = EPSILON /
                 break
 

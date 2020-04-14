@@ -27,7 +27,7 @@ class Hex:
                 if current_cell.get_fill() == 'red':
                     out.append(1)
                 elif current_cell.get_fill() == 'black':
-                    out.append(2)
+                    out.append(-1)
                 else:
                     out.append(0)
         return out

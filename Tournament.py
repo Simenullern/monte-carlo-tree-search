@@ -14,7 +14,7 @@ class Tournament:
     def load_contesters(self):
         models = {}
 
-        for filename in os.listdir('./models'):
+        for filename in sorted(os.listdir('./models')):
             actor = Actor(BOARD_SIZE, HIDDEN_LAYERS, LEARNING_RATE, ACTIVATION, OPTIMIZER)
             model = actor.net
             model.load_state_dict(torch.load('./models/'+filename))
@@ -22,8 +22,8 @@ class Tournament:
             models[filename] = model
             print(filename)
 
-            current_state = [0, 1, 0, 0, 1, 0, 2, 0, 2]
-            state_with_player = torch.tensor([1, 0, 1, 0, 0, 1, 0, 2, 0, 2]).float()
+            current_state = [0, 1, 0, 0, 1, 0, -1, 0, -1]
+            state_with_player = torch.tensor([1, 0, 1, 0, 0, 1, 0, -1, 0, -1]).float()
             softmax_distr = model.forward(state_with_player).detach().numpy()
             #print(softmax_distr)
             softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
@@ -53,17 +53,20 @@ if __name__ == '__main__':
         for game in range(1, M_GAMES_TO_PLAY_IN_TOPP+1):
             gameController.reset_game()
             # Alternate between who goes first
-            GAME_CYCLE = cycle(['Player1', 'Player2']) if game % 2 == 0 \
-                else cycle(['Player2', 'Player1'])
+            GAME_CYCLE = cycle(['Player1', 'Player2']) if STARTING_PLAYER == 1 \
+                else cycle(['Player2', 'Player1']) if STARTING_PLAYER == 2 \
+                else cycle((Utils.shuffle(['Player2', 'Player1'])))
 
             for player in GAME_CYCLE:
                 current_state = gameController.get_game_state()
-                state_with_player = torch.tensor([int(player[-1])] + current_state).float()
+                player_id = 1 if player[-1] == 1 else -1
+                state_with_player = torch.tensor([player_id] + current_state).float()
 
                 net_to_use = models[matchup[0]] if player == 'Player1' else models[matchup[1]]
 
                 softmax_distr = net_to_use.forward(state_with_player).detach().numpy()
                 softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
+
                 action = Utils.make_move_from_distribution(softmax_distr_re_normalized, BOARD_SIZE)
                 gameController.make_move(action, player)
 
