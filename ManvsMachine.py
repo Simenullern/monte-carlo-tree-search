@@ -23,10 +23,9 @@ def make_move(model, current_state, state_with_player):
     return action
 
 
-
 if __name__ == '__main__':
-    size = 4
-    game = Hex(size=4)
+    size = 3
+    game = Hex(size=size)
     model = load_model('./models/boardsize_'+str(size) +'/net_after_episode_100.pt', size)
     gameController = GameController(game, visualize=True)
     start_state = gameController.get_game_state()

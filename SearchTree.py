@@ -62,18 +62,18 @@ class SearchTree:
                 else:
                     return -1 - self.board_size / pieces_on_board
             else:
-                current_state = gameController.get_game_state()
-                player_id = 1 if player[-1] == 1 else -1
-                state_with_player = torch.tensor([player_id] + current_state).float()
-                softmax_distr = default_policy.forward(state_with_player).detach().numpy()
-                softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
-
                 if random.uniform(0, 1) < self.epsilon:
                     gameController.make_random_move(player)
-                    #action = Utils.make_move_from_distribution(softmax_distr_re_normalized, self.board_size)
-                    #gameController.make_move(action, player)
                 else:
+                    current_state = gameController.get_game_state()
+                    player_id = 1 if player[-1] == 1 else -1
+                    state_with_player = torch.tensor([player_id] + current_state).float()
+                    softmax_distr = default_policy.forward(state_with_player).detach().numpy()
+                    softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
                     action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, self.board_size)
+                    if action not in gameController.get_all_valid_moves():
+                        print("wtf")
+                        breakpoint()
                     gameController.make_move(action, player)
 
     def backprop(self, reward, first_move_from_leaf_in_tree_search):
