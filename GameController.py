@@ -20,6 +20,9 @@ class GameController:
     def get_board_size(self):
         return self.game.size
 
+    def get_number_of_pieces_on_board(self):
+        return self.game.get_number_of_pieces_on_board()
+
     def get_succ_state(self, action, player):
         this = copy.deepcopy(self)
         this.make_move(action, player)

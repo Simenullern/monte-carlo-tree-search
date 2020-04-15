@@ -23,11 +23,20 @@ if __name__ == '__main__':
 
         for player in GAME_CYCLE:
             searchTree = SearchTree(root_state, BOARD_SIZE, EXPLORATION_BONUS_C, EPSILON, actor)
-            action = searchTree.simulate_games_to_find_move(gameController, player, NUM_OF_SIMULATIONS)
+            normalized_visit_counts, action = searchTree.simulate_games_to_find_move(gameController, player, NUM_OF_SIMULATIONS)
             gameController.make_move(action, player)
+
+            if episode % SAVE_PARAMS_EVERY_NTH_EPISODE == 0:
+                print(player, "took action", action, "index", action[0] * 3 + action[1])
+                print("that was based on the max of", normalized_visit_counts)
+                Utils.print_tree_dfs(searchTree.root)
+                breakpoint()
+
             leaf = searchTree.root.get_child(action)
             leaf.reset_stats()
             root_state = leaf.get_state()
+
+
 
             if gameController.game_is_won():
                 print("EPISODE", episode, ":", player, "wins")

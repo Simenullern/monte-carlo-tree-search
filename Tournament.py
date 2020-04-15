@@ -7,35 +7,31 @@ from Hex import Hex
 from GameController import GameController
 import Utils
 
-class Tournament:
-    def __init__(self, m_games_to_play_between_two_player):
-        self.m_games_to_play_between_two_player = m_games_to_play_between_two_player
 
-    def load_contesters(self):
-        models = {}
+def load_contesters(board_size):
+    models = {}
 
-        for filename in sorted(os.listdir('./models')):
-            actor = Actor(BOARD_SIZE, HIDDEN_LAYERS, LEARNING_RATE, ACTIVATION, OPTIMIZER)
-            model = actor.net
-            model.load_state_dict(torch.load('./models/'+filename))
-            model.eval()
-            models[filename] = model
-            print(filename)
+    for filename in sorted(os.listdir('./models/boardsize_'+str(board_size))):
+        actor = Actor(board_size, HIDDEN_LAYERS, LEARNING_RATE, ACTIVATION, OPTIMIZER)
+        model = actor.net
+        model.load_state_dict(torch.load('./models/boardsize_'+str(board_size)+'/'+filename))
+        model.eval()
+        models[filename] = model
+        print(filename)
 
-            current_state = [0, 1, 0, 0, 0, 1, 0, 0, -1, 1, -1, 0, -1, 0, 0, 0]
-            state_with_player = torch.tensor([1, 0, 1, 0, 0, 0, 1, 0, 0, -1, 1, -1, 0, -1, 0, 0, 0]).float()
-            softmax_distr = model.forward(state_with_player).detach().numpy()
-            #print(softmax_distr)
-            softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
-            print(softmax_distr_re_normalized, '\n')
+        #current_state = [0, 1, 0, 0, 0, 1, 0, 0, -1, 1, -1, 0, -1, 0, 0, 0]
+        #state_with_player = torch.tensor([1, 0, 1, 0, 0, 0, 1, 0, 0, -1, 1, -1, 0, -1, 0, 0, 0]).float()
+        #softmax_distr = model.forward(state_with_player).detach().numpy()
+        #print(softmax_distr)
+        #softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
+        #print(softmax_distr_re_normalized, '\n')
 
-        breakpoint()
-        return models
+    breakpoint()
+    return models
 
 
 if __name__ == '__main__':
-    tournament = Tournament(m_games_to_play_between_two_player=20)
-    models = tournament.load_contesters()
+    models = load_contesters(board_size=BOARD_SIZE)
     matchup_combinations = list(combinations(models.keys(), 2))
 
     game = Hex(size=BOARD_SIZE)
@@ -52,10 +48,7 @@ if __name__ == '__main__':
 
         for game in range(1, M_GAMES_TO_PLAY_IN_TOPP+1):
             gameController.reset_game()
-            # Alternate between who goes first
-            GAME_CYCLE = cycle(['Player1', 'Player2']) if STARTING_PLAYER == 1 \
-                else cycle(['Player2', 'Player1']) if STARTING_PLAYER == 2 \
-                else cycle((Utils.shuffle(['Player2', 'Player1'])))
+            GAME_CYCLE = cycle(['Player1', 'Player2']) if game % 2 == 0 else cycle(['Player2', 'Player1'])
 
             for player in GAME_CYCLE:
                 current_state = gameController.get_game_state()
@@ -67,7 +60,7 @@ if __name__ == '__main__':
                 softmax_distr = net_to_use.forward(state_with_player).detach().numpy()
                 softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
 
-                action = Utils.make_move_from_distribution(softmax_distr_re_normalized, BOARD_SIZE)
+                action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, BOARD_SIZE)
                 gameController.make_move(action, player)
 
                 if gameController.game_is_won():

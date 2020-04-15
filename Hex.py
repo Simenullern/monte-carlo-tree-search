@@ -32,6 +32,15 @@ class Hex:
                     out.append(0)
         return out
 
+    def get_number_of_pieces_on_board(self):
+        count = 0
+        for r in range(0, len(self.cells)):
+            for c in range(0, len(self.cells[r])):
+                current_cell = self.cells[r][c]
+                if current_cell.is_filled():
+                    count += 1
+        return count
+
     def get_succ_state(self, action):
         cop = copy.deepcopy(self)
         cop.make_move(action, "_")
