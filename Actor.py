@@ -2,6 +2,7 @@ import torch
 import Config
 from Hex import Hex
 import Utils
+import numpy as np
 
 
 class Actor:
@@ -15,10 +16,10 @@ class Actor:
             modules.append(Config.ACTIVATIONS[activation]())
 
         modules.append(torch.nn.Linear(hidden_layers[-1], Hex.get_number_of_cells(board_size)))
-        modules.append(torch.nn.Softmax()) # Not use? # cross entropy loss: The input is expected to contain raw, unnormalized scores for each class.
+        #modules.append(torch.nn.Softmax()) # Not use? The input is expected to contain raw, unnormalized scores for each class.
 
         self.net = torch.nn.Sequential(*modules)
-        self.criterion = torch.nn.BCEWithLogitsLoss()  # Cross entropy. BCE Loss # MSELoss()
+        self.criterion = torch.nn.CrossEntropyLoss()  # Cross entropy. BCE Loss # MSELoss()
         self.optimizer = Config.OPTIMIZERS[optimizer](self.net.parameters(), lr=learning_rate)
 
     def forward(self, X):
@@ -34,9 +35,9 @@ class Actor:
         self.net.train()
         for example in training_set[:replay_buffer_minibatch_size]:
             self.optimizer.zero_grad()
-            pred = self.net(example[0])
-            visit_distr = torch.tensor(example[1])
-            loss = self.criterion(pred, visit_distr)
+            pred = self.net(example[0]).reshape(1, -1)
+            argmax = torch.tensor(np.argmax(example[1])).reshape(1)
+            loss = self.criterion(pred, argmax)
             loss.backward()
             self.optimizer.step()
         return self

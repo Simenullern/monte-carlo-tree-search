@@ -24,6 +24,7 @@ if __name__ == '__main__':
         for player in GAME_CYCLE:
             searchTree = SearchTree(root_state, BOARD_SIZE, EXPLORATION_BONUS_C, EPSILON, actor)
             normalized_visit_counts, action = searchTree.simulate_games_to_find_move(gameController, player, NUM_OF_SIMULATIONS)
+            replay_buffer += searchTree.get_replay_buffer()
             gameController.make_move(action, player)
 
             if episode % SAVE_PARAMS_EVERY_NTH_EPISODE == 0:
@@ -36,12 +37,9 @@ if __name__ == '__main__':
             leaf.reset_stats()
             root_state = leaf.get_state()
 
-
-
             if gameController.game_is_won():
                 print("EPISODE", episode, ":", player, "wins")
                 #breakpoint()
-                replay_buffer = searchTree.get_replay_buffer()
                 actor = actor.train(replay_buffer, REPLAY_BUFFER_MAX_SIZE, REPLAY_BUFFER_MINIBATCH_SIZE)
                 gameController.register_victory(player)
                 if episode % SAVE_PARAMS_EVERY_NTH_EPISODE == 0:

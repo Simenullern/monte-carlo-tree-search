@@ -6,7 +6,7 @@ from sklearn.preprocessing import normalize
 
 def shuffle(arr):
     random.shuffle(arr)
-    return arr
+    return np.array(arr)
 
 
 def print_tree_dfs(root):
