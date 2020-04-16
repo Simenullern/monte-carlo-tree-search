@@ -5,6 +5,7 @@ import Utils
 import numpy as np
 import random
 import math
+from scipy.special import softmax
 
 
 class SearchTree:
@@ -40,13 +41,12 @@ class SearchTree:
 
             game_cycle_in_simulation = cycle(['Player1', 'Player2']) if player == 'Player2' else cycle(
                 ['Player2', 'Player1'])  # Because player makes tree_action according to tree policy
-            player_evaluating = player
             reward = self.leaf_evaluation(player, game_cycle_in_simulation, simulation_controller, self.actor)
             self.backprop(reward, tree_action)
 
         # Add to replay_buffer
         current_state = episode_game_controller.get_game_state()
-        player_id = 1 if player[-1] == 1 else -1
+        player_id = 1 if player[-1] == '1' else -1
         state_with_player = torch.tensor([player_id] + current_state).float()
         normalized_visit_counts = self.get_normalized_visit_counts(current_state)
         self.replay_buffer.append((state_with_player, normalized_visit_counts))
@@ -66,13 +66,14 @@ class SearchTree:
                     gameController.make_random_move(player)
                 else:
                     current_state = gameController.get_game_state()
-                    player_id = 1 if player[-1] == 1 else -1
+                    player_id = 1 if player[-1] == '1' else -1
                     state_with_player = torch.tensor([player_id] + current_state).float()
-                    softmax_distr = default_policy.forward(state_with_player).detach().numpy()
+                    softmax_distr = softmax(default_policy.forward(state_with_player).detach().numpy())
                     softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
                     action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, self.board_size)
                     if action not in gameController.get_all_valid_moves():
                         print("wtf")
+                        gameController.make_random_move(player)
                         breakpoint()
                     gameController.make_move(action, player)
 

@@ -5,6 +5,7 @@ import Utils
 from Hex import Hex
 from GameController import GameController
 from itertools import cycle
+from scipy.special import softmax
 
 
 def load_model(model_path, size):
@@ -24,9 +25,9 @@ def make_move(model, current_state, state_with_player):
 
 
 if __name__ == '__main__':
-    size = 3
+    size = 4
     game = Hex(size=size)
-    model = load_model('./models/boardsize_'+str(size) +'/net_after_episode_100.pt', size)
+    model = load_model('./models/boardsize_'+str(size) +'/net_after_episode_200.pt', size)
     gameController = GameController(game, visualize=True)
     start_state = gameController.get_game_state()
 
@@ -40,18 +41,24 @@ if __name__ == '__main__':
 
             for player in GAME_CYCLE:
                 if player == 'Player1':
-                    action = input("What is your action human? e.g. type 0 0 ")
-                    action = tuple(map(int, action.split(' ')))
+                    action = None
+                    while action not in gameController.get_all_valid_moves():
+                        try:
+                            action = input("What is your action human? e.g. type 0 0 ")
+                            action = tuple(map(int, action.split(' ')))
+                        except ValueError:
+                            continue
                     gameController.make_move(action, player)
                 else:
                     current_state = gameController.get_game_state()
-                    player_id = 2 if player[-1] == 2 else -1
+                    player_id = -1
                     state_with_player = torch.tensor([player_id] + current_state).float()
-                    softmax_distr = model.forward(state_with_player).detach().numpy()
+                    softmax_distr = softmax(model.forward(state_with_player).detach().numpy())
                     softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
+                    print(sum(softmax_distr_re_normalized))
+                    #print()
 
-                    action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, size)
-                    print("Machine picks move", action)
+                    action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, size, verbose=True)
                     gameController.make_move(action, player)
 
                 if gameController.game_is_won():

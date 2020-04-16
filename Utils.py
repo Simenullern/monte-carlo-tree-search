@@ -62,8 +62,10 @@ def make_move_from_distribution(distribution_normalized, board_size):
     return (row, col)
 
 
-def make_max_move_from_distribution(distribution_normalized, board_size):
+def make_max_move_from_distribution(distribution_normalized, board_size, verbose = False):
     action = np.argmax(distribution_normalized)
     row = action // board_size
     col = action % board_size
+    if verbose:
+        print((row, col), "chosen from", distribution_normalized, "max is", distribution_normalized[action])
     return (row, col)

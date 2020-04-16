@@ -44,7 +44,7 @@ if __name__ == '__main__':
                 if episode % SAVE_PARAMS_EVERY_NTH_EPISODE == 0:
                     gameController.summarize_stats()
                     actor.save(BOARD_SIZE, episode)
-                    #EPSILON = EPSILON /
+                    EPSILON = EPSILON / 2
                 gameController.reset_game()
                 root_state = gameController.get_game_state()
                 break
