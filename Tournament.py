@@ -20,19 +20,19 @@ def load_contesters(board_size):
         models[filename] = model
         print(filename)
 
-        current_state = [0, 1, 0, 0, 0, 1, 0, 0, -1, 1, -1, 0, -1, 0, 0, 0]
-        state_with_player = torch.tensor([1, 0, 1, 0, 0, 0, 1, 0, 0, -1, 1, -1, 0, -1, 0, 0, 0]).float()
-        softmax_distr = softmax(model.forward(state_with_player).detach().numpy())
+        #current_state = [0, 1, 0, 0, 0, 1, 0, 0, -1, 1, -1, 0, -1, 0, 0, 0]
+        #state_with_player = torch.tensor([1, 0, 1, 0, 0, 0, 1, 0, 0, -1, 1, -1, 0, -1, 0, 0, 0]).float()
+        #softmax_distr = softmax(model.forward(state_with_player).detach().numpy())
         #print(softmax_distr)
-        softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
-        print(softmax_distr_re_normalized, '\n')
+        #softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
+        #print(softmax_distr_re_normalized, '\n')
 
-    breakpoint()
+    #breakpoint()
     return models
 
 
 if __name__ == '__main__':
-    size = 4
+    size = 3
     models = load_contesters(board_size=size)
     matchup_combinations = list(combinations(models.keys(), 2))
 
@@ -66,7 +66,7 @@ if __name__ == '__main__':
                 gameController.make_move(action, player)
 
                 if gameController.game_is_won():
-                    print(player1, "is meeting", player2, "for game", game, ":", player, "wins!\n")
+                    #print(player1, "is meeting", player2, "for game", game, ":", player, "wins!\n")
                     if player == 'Player1':
                         scores[matchup[0]] += 1
                     else:

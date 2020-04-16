@@ -1,7 +1,7 @@
 import torch
 
 # HEX
-BOARD_SIZE = 3
+#BOARD_SIZE = 3
 
 VISUALIZE_MOVES = False
 NUM_EPISODES = 200

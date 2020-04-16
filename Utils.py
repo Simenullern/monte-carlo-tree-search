@@ -1,7 +1,6 @@
 import random
 import numpy as np
 from Stack import Stack
-from sklearn.preprocessing import normalize
 
 
 def shuffle(arr):
