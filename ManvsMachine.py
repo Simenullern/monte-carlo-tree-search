@@ -6,6 +6,7 @@ from Hex import Hex
 from GameController import GameController
 from itertools import cycle
 from scipy.special import softmax
+import random
 
 
 def load_model(model_path, size):
@@ -27,7 +28,7 @@ def make_move(model, current_state, state_with_player):
 if __name__ == '__main__':
     size = 4
     game = Hex(size=size)
-    model = load_model('./models/boardsize_'+str(size) +'/net_after_episode_200.pt', size)
+    model = load_model('./models/boardsize_'+str(size) +'/net_after_episode_150.pt', size)
     gameController = GameController(game, visualize=True)
     start_state = gameController.get_game_state()
 
@@ -55,11 +56,13 @@ if __name__ == '__main__':
                     state_with_player = torch.tensor([player_id] + current_state).float()
                     softmax_distr = softmax(model.forward(state_with_player).detach().numpy())
                     softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
-                    print(sum(softmax_distr_re_normalized))
                     #print()
-
-                    action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, size, verbose=True)
-                    gameController.make_move(action, player)
+                    if random.uniform(0, 1) < 0:
+                        action = Utils.make_move_from_distribution(softmax_distr_re_normalized, size, verbose = True)
+                        gameController.make_move(action, player)
+                    else:
+                        action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, size, verbose=True)
+                        gameController.make_move(action, player)
 
                 if gameController.game_is_won():
                     if player == 'Player1':

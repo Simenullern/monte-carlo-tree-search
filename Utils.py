@@ -54,18 +54,20 @@ def re_normalize(state, softmax_distr):
     return p
 
 
-def make_move_from_distribution(distribution_normalized, board_size):
+def make_move_from_distribution(distribution_normalized, board_size, verbose=False):
     a = np.array([i for i in range(0, len(distribution_normalized))])
     action = np.random.choice(a, p=distribution_normalized)
     row = action // board_size
     col = action % board_size
+    if verbose:
+        print("from distribution picked", action, (row, col), "chosen from", distribution_normalized)
     return (row, col)
 
 
-def make_max_move_from_distribution(distribution_normalized, board_size, verbose = False):
+def make_max_move_from_distribution(distribution_normalized, board_size, verbose=False):
     action = np.argmax(distribution_normalized)
     row = action // board_size
     col = action % board_size
     if verbose:
-        print((row, col), "chosen from", distribution_normalized, "max is", distribution_normalized[action])
+        print((row, col), "chosen as max from", distribution_normalized, "max is", distribution_normalized[action])
     return (row, col)

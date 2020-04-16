@@ -32,10 +32,11 @@ def load_contesters(board_size):
 
 
 if __name__ == '__main__':
-    models = load_contesters(board_size=BOARD_SIZE)
+    size = 4
+    models = load_contesters(board_size=size)
     matchup_combinations = list(combinations(models.keys(), 2))
 
-    game = Hex(size=BOARD_SIZE)
+    game = Hex(size=size)
     gameController = GameController(game, VISUALIZE_MOVES)
     start_state = gameController.get_game_state()
 
@@ -61,11 +62,11 @@ if __name__ == '__main__':
                 softmax_distr = softmax(net_to_use.forward(state_with_player).detach().numpy())
                 softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
 
-                action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, BOARD_SIZE)
+                action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, size)
                 gameController.make_move(action, player)
 
                 if gameController.game_is_won():
-                    #print(player1, "is meeting", player2, "for game", game, ":", player, "wins!\n")
+                    print(player1, "is meeting", player2, "for game", game, ":", player, "wins!\n")
                     if player == 'Player1':
                         scores[matchup[0]] += 1
                     else:

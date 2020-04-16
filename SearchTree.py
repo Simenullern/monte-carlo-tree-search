@@ -74,7 +74,6 @@ class SearchTree:
                     if action not in gameController.get_all_valid_moves():
                         print("wtf")
                         gameController.make_random_move(player)
-                        breakpoint()
                     gameController.make_move(action, player)
 
     def backprop(self, reward, first_move_from_leaf_in_tree_search):

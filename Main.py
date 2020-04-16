@@ -5,6 +5,7 @@ from Hex import Hex
 from Actor import Actor
 from GameController import GameController
 from SearchTree import SearchTree
+import random
 
 
 if __name__ == '__main__':
@@ -22,21 +23,32 @@ if __name__ == '__main__':
 
         for player in GAME_CYCLE:
             searchTree = SearchTree(root_state, BOARD_SIZE, EXPLORATION_BONUS_C, EPSILON, actor)
-            normalized_visit_counts, action = searchTree.simulate_games_to_find_move(gameController, player, NUM_OF_SIMULATIONS)
-            replay_buffer += searchTree.get_replay_buffer()
-            gameController.make_move(action, player)
+            take_random_move_this_turn = False
 
-            if episode % SAVE_PARAMS_EVERY_NTH_EPISODE == 0 or episode == 1:
-                print("episode", episode)
-                print(player, "took action", action, "index", action[0] * 3 + action[1])
-                print("that was based on the max of", normalized_visit_counts)
-                Utils.print_tree_dfs(searchTree.root)
-                #breakpoint()
+            if random.uniform(0, 1) < 0.1:
+                take_random_move_this_turn = True
+                action = gameController.get_random_move()
+                gameController.make_move(action, player)
+                root_state = gameController.get_game_state()
+                if episode % SAVE_PARAMS_EVERY_NTH_EPISODE == 0 or episode == 1:
+                    print("took random move", action)
+
+            else:
+                normalized_visit_counts, action = searchTree.simulate_games_to_find_move(gameController, player, NUM_OF_SIMULATIONS)
+                replay_buffer += searchTree.get_replay_buffer()
+                gameController.make_move(action, player)
+
+                if episode % SAVE_PARAMS_EVERY_NTH_EPISODE == 0 or episode == 1:
+                    print("episode", episode)
+                    print(player, "took action", action, "index", action[0] * 3 + action[1])
+                    print("that was based on the max of", normalized_visit_counts)
+                    Utils.print_tree_dfs(searchTree.root)
 
             if gameController.game_is_on():
-                leaf = searchTree.root.get_child(action)
-                leaf.reset_stats()
-                root_state = leaf.get_state()
+                if not take_random_move_this_turn:
+                    leaf = searchTree.root.get_child(action)
+                    leaf.reset_stats()
+                    root_state = leaf.get_state()
             else:
                 print("EPISODE", episode, ":", player, "wins")
                 actor = actor.train(replay_buffer, REPLAY_BUFFER_MAX_SIZE, REPLAY_BUFFER_MINIBATCH_SIZE)
@@ -44,7 +56,7 @@ if __name__ == '__main__':
                 if episode % SAVE_PARAMS_EVERY_NTH_EPISODE == 0:
                     gameController.summarize_stats()
                     actor.save(BOARD_SIZE, episode)
-                    EPSILON = EPSILON / 2
+                    #EPSILON = EPSILON / 2
                 gameController.reset_game()
                 root_state = gameController.get_game_state()
                 break
