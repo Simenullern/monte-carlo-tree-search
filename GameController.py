@@ -23,6 +23,9 @@ class GameController:
     def get_number_of_pieces_on_board(self):
         return self.game.get_number_of_pieces_on_board()
 
+    def get_outer_walls_set_for_player(self, player_id):
+        return self.game.get_outer_walls_set_for_player(player_id)
+
     def get_succ_state(self, action, player):
         this = copy.deepcopy(self)
         this.make_move(action, player)

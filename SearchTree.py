@@ -47,9 +47,21 @@ class SearchTree:
         # Add to replay_buffer
         current_state = episode_game_controller.get_game_state()
         player_id = 1 if player[-1] == '1' else -1
-        state_with_player = torch.tensor([player_id] + current_state).float()
+        number_of_cells = self.board_size * self.board_size
+        number_of_taken_cells = episode_game_controller.get_number_of_pieces_on_board()
+        number_of_free_cells = number_of_cells - number_of_taken_cells
+        frac_free = number_of_free_cells / number_of_cells
+        frac_taken = number_of_taken_cells / number_of_cells
+        player_1_taken_endwall1, player_1_taken_endwall2 = episode_game_controller.get_outer_walls_set_for_player(1)
+        player_2_taken_endwall1, player_2_taken_endwall2 = episode_game_controller.get_outer_walls_set_for_player(2)
+
+        feat_eng_state = [frac_free, frac_taken, player_1_taken_endwall1, player_1_taken_endwall2,
+                          player_2_taken_endwall1, player_2_taken_endwall2]
+
+        state_for_net = torch.tensor([player_id] + current_state + feat_eng_state).float()
+
         normalized_visit_counts = self.get_normalized_visit_counts(current_state)
-        self.replay_buffer.append((state_with_player, normalized_visit_counts))
+        self.replay_buffer.append((state_for_net, normalized_visit_counts))
 
         return normalized_visit_counts, Utils.make_max_move_from_distribution(normalized_visit_counts, self.board_size)
 
@@ -67,9 +79,23 @@ class SearchTree:
                 else:
                     current_state = gameController.get_game_state()
                     player_id = 1 if player[-1] == '1' else -1
-                    state_with_player = torch.tensor([player_id] + current_state).float()
-                    softmax_distr = default_policy.forward(state_with_player).detach().numpy()
-                    softmax_distr_re_normalized = softmax(Utils.re_normalize(current_state, softmax_distr))
+                    number_of_cells = self.board_size * self.board_size
+                    number_of_taken_cells = gameController.get_number_of_pieces_on_board()
+                    number_of_free_cells = number_of_cells - number_of_taken_cells
+                    frac_free = number_of_free_cells / number_of_cells
+                    frac_taken = number_of_taken_cells / number_of_cells
+                    player_1_taken_endwall1, player_1_taken_endwall2 = gameController.get_outer_walls_set_for_player(1)
+                    player_2_taken_endwall1, player_2_taken_endwall2 = gameController.get_outer_walls_set_for_player(2)
+
+                    feat_eng_state = [frac_free, frac_taken, player_1_taken_endwall1, player_1_taken_endwall2,
+                                      player_2_taken_endwall1, player_2_taken_endwall2]
+
+                    state_for_net = torch.tensor([player_id] + current_state + feat_eng_state).float()
+
+
+                    softmax_distr = softmax(default_policy.forward(state_for_net).detach().numpy())
+                    softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
+
                     action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, self.board_size)
                     if action not in gameController.get_all_valid_moves():
                         print("wtf")

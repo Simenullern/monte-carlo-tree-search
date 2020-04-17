@@ -9,8 +9,8 @@ from scipy.special import softmax
 import random
 
 
-def load_model(model_path, size):
-    actor = Actor(size, HIDDEN_LAYERS, LEARNING_RATE, ACTIVATION, OPTIMIZER)
+def load_model(model_path, size, hidden_layers):
+    actor = Actor(size, hidden_layers, LEARNING_RATE, ACTIVATION, OPTIMIZER)
     model = actor.net
     model.load_state_dict(torch.load(model_path))
     model.eval()
@@ -19,8 +19,9 @@ def load_model(model_path, size):
 
 if __name__ == '__main__':
     size = 3
+    hidden_layers = [16 * size, 16 * size]
     game = Hex(size=size)
-    model = load_model('./models/boardsize_'+str(size) +'/net_after_episode_200.pt', size)
+    model = load_model('./models/boardsize_'+str(size) +'/net_after_episode_50.pt', size, hidden_layers)
     gameController = GameController(game, visualize=True)
     start_state = gameController.get_game_state()
 
@@ -44,9 +45,21 @@ if __name__ == '__main__':
                     gameController.make_move(action, player)
                 else:
                     current_state = gameController.get_game_state()
-                    player_id = -1
-                    state_with_player = torch.tensor([player_id] + current_state).float()
-                    softmax_distr = model.forward(state_with_player).detach().numpy()
+                    player_id = 1 if player[-1] == '1' else -1
+                    number_of_cells = size * size
+                    number_of_taken_cells = gameController.get_number_of_pieces_on_board()
+                    number_of_free_cells = number_of_cells - number_of_taken_cells
+                    frac_free = number_of_free_cells / number_of_cells
+                    frac_taken = number_of_taken_cells / number_of_cells
+                    player_1_taken_endwall1, player_1_taken_endwall2 = gameController.get_outer_walls_set_for_player(1)
+                    player_2_taken_endwall1, player_2_taken_endwall2 = gameController.get_outer_walls_set_for_player(2)
+
+                    feat_eng_state = [frac_free, frac_taken, player_1_taken_endwall1, player_1_taken_endwall2,
+                                      player_2_taken_endwall1, player_2_taken_endwall2]
+
+                    state_for_net = torch.tensor([player_id] + current_state + feat_eng_state).float()
+
+                    softmax_distr = softmax(model.forward(state_for_net).detach().numpy())
                     softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
                     #print()
                     if random.uniform(0, 1) < 0:

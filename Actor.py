@@ -8,7 +8,7 @@ import numpy as np
 class Actor:
     def __init__(self, board_size, hidden_layers, learning_rate, activation, optimizer):
         modules = []
-        modules.append(torch.nn.Linear(Hex.get_number_of_cells(board_size) + 1, hidden_layers[0]))  # +1 from playerID
+        modules.append(torch.nn.Linear(Hex.get_number_of_cells(board_size)+1+2+4 , hidden_layers[0]))  # +1 from playerID. Then frac of free and taken cells. Then walls.
         modules.append(Config.ACTIVATIONS[activation]())
 
         for i in range(0, len(hidden_layers) - 1):
@@ -19,8 +19,13 @@ class Actor:
         #modules.append(torch.nn.Softmax()) # Not use? The input is expected to contain raw, unnormalized scores for each class.
 
         self.net = torch.nn.Sequential(*modules)
-        self.criterion = torch.nn.CrossEntropyLoss()  # Cross entropy. BCE Loss # MSELoss()
+        self.criterion = self.cross_entropy  # Cross entropy. BCE Loss # MSELoss()
         self.optimizer = Config.OPTIMIZERS[optimizer](self.net.parameters(), lr=learning_rate)
+
+    def cross_entropy(self, pred, soft_targets):
+        logsoftmax = torch.nn.LogSoftmax()
+        return torch.mean(torch.sum(- soft_targets * logsoftmax(pred), 1))
+
 
     def forward(self, X):
         self.net.eval()
@@ -40,8 +45,8 @@ class Actor:
             self.optimizer.zero_grad()
             pred = self.net(example[0]).reshape(1, -1)
             argmax = torch.tensor(np.argmax(example[1])).reshape(1)
-            #distr = torch.tensor(example[1])
-            loss = self.criterion(pred, argmax)
+            distr = torch.tensor(example[1])
+            loss = self.criterion(pred, distr)
             loss.backward()
             self.optimizer.step()
         return self

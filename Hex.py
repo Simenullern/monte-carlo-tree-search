@@ -106,6 +106,38 @@ class Hex:
 
         return False
 
+    def get_outer_walls_set_for_player(self, player_id):
+        first_wall, second_wall = 0, 0
+
+        if player_id == 1:
+            # check if some piece is set in row (0) and row (size-1)
+            for c in range(0, len(self.cells[0])):
+                current_cell = self.cells[0][c]
+                if current_cell.get_fill() == 'red':
+                    first_wall = 1
+
+            for c in range(0, len(self.cells[self.size-1])):
+                current_cell = self.cells[self.size-1][c]
+                if current_cell.get_fill() == 'red':
+                    second_wall = 1
+
+        else:  # player_id is 2
+            # Check if some piece is set in col(0) anf col (size-1)
+            for r in range(0, len(self.cells[0])):
+                current_cell = self.cells[r][0]
+                if current_cell.get_fill() == 'black':
+                    first_wall = 1
+
+            for r in range(0, len(self.cells[self.size-1])):
+                current_cell = self.cells[r][self.size-1]
+                if current_cell.get_fill() == 'black':
+                    second_wall = 1
+
+        return first_wall, second_wall
+
+
+
+
     def get_all_valid_moves(self):
         possible_moves = []
         for r in range(0, len(self.cells)):
@@ -205,19 +237,15 @@ class Hex:
 
 
 if __name__ == '__main__':
-    Board = Hex(size=4)
+    Board = Hex(size=3)
     Board.visualize()
     print(Board.get_all_valid_moves())
     Board.make_move((0, 0), 'Player2')
-    Board.make_move((0, 1), 'Player2')
+    Board.make_move((0, 1), 'Player1')
     Board.make_move((0, 2), 'Player1')
-    Board.make_move((0, 3), 'Player2')
     Board.make_move((1, 1), 'Player1')
     Board.make_move((1, 2), 'Player2')
-    Board.make_move((1, 3), 'Player2')
     Board.make_move((2, 1), 'Player2')
     Board.make_move((2, 2), 'Player1')
-    Board.make_move((2, 3), 'Player1')
-    Board.make_move((3, 0), 'Player1')
-    Board.make_move((3, 1), 'Player1')
+    print(Board.get_state())
     Board.visualize()

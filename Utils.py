@@ -1,6 +1,7 @@
 import random
 import numpy as np
 from Stack import Stack
+import torch
 
 
 def shuffle(arr):
@@ -70,3 +71,14 @@ def make_max_move_from_distribution(distribution_normalized, board_size, verbose
     if verbose:
         print((row, col), "chosen as max from", distribution_normalized, "max is", distribution_normalized[action])
     return (row, col)
+
+
+def map_oht_format_to_my_format(state):
+    out = [state[0]]
+    for i in range(1, len(state)):
+        if state[i] == 0 or state[i] == 1:
+            out.append(state[i])
+        elif state[i] == 2:
+            out.append(-1)
+
+    return torch.tensor(out).float()

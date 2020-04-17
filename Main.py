@@ -17,6 +17,7 @@ if __name__ == '__main__':
         NUM_OF_SIMULATIONS = BOARD_SIZE * BOARD_SIZE * 100
         REPLAY_BUFFER_MAX_SIZE = BOARD_SIZE * BOARD_SIZE * 100
         REPLAY_BUFFER_MINIBATCH_SIZE = BOARD_SIZE * BOARD_SIZE * 5
+        HIDDEN_LAYERS = [16 * BOARD_SIZE, 16 * BOARD_SIZE]
 
         game = Hex(size=BOARD_SIZE)
         gameController = GameController(game, visualize=False)

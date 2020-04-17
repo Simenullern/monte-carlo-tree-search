@@ -11,11 +11,11 @@ SAVE_PARAMS_EVERY_NTH_EPISODE = 50
 STARTING_PLAYER = 0
 
 HIDDEN_LAYERS = [64, 64]
-LEARNING_RATE = 0.01  # If too high then probability inputs might contain nan
+LEARNING_RATE = 0.005  # If too high then probability inputs might contain nan
 ACTIVATION = 'tanh'  #'sigmoid', 'tanh', 'relu', 'linaer'
 OPTIMIZER = 'adam'  #adagrad, sgd, rmsprop, 'adam'
 
-REPLAY_BUFFER_MAX_SIZE = 500
+REPLAY_BUFFER_MAX_SIZE = 2000
 REPLAY_BUFFER_MINIBATCH_SIZE = 50
 
 EPSILON = 0.5
@@ -36,6 +36,3 @@ OPTIMIZERS = {
     'rmsprop': torch.optim.RMSprop
 }
 
-MAP_NET_INPUT_FORMAT = {
-    2: -1
-}
