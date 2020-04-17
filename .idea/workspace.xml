@@ -3,17 +3,28 @@
   <component name="ChangeListManager">
     <list default="true" id="0002e42a-3998-45dd-9f02-898d00a6dac2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Actor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Actor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Config.py" beforeDir="false" afterPath="$PROJECT_DIR$/Config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ManvsMachine.py" beforeDir="false" afterPath="$PROJECT_DIR$/ManvsMachine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SearchTree.py" beforeDir="false" afterPath="$PROJECT_DIR$/SearchTree.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tournament.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tournament.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/Utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/boardsize_3/net_after_episode_0.pt" beforeDir="false" afterPath="$PROJECT_DIR$/models/boardsize_3/net_after_episode_0.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/boardsize_3/net_after_episode_100.pt" beforeDir="false" afterPath="$PROJECT_DIR$/models/boardsize_3/net_after_episode_100.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/boardsize_3/net_after_episode_150.pt" beforeDir="false" afterPath="$PROJECT_DIR$/models/boardsize_3/net_after_episode_150.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/boardsize_3/net_after_episode_200.pt" beforeDir="false" afterPath="$PROJECT_DIR$/models/boardsize_3/net_after_episode_200.pt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/boardsize_3/net_after_episode_100.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/boardsize_3/net_after_episode_150.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/boardsize_3/net_after_episode_200.pt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/models/boardsize_3/net_after_episode_50.pt" beforeDir="false" afterPath="$PROJECT_DIR$/models/boardsize_3/net_after_episode_50.pt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/boardsize_4/net_after_episode_0.pt" beforeDir="false" afterPath="$PROJECT_DIR$/models/boardsize_4/net_after_episode_0.pt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/boardsize_4/net_after_episode_100.pt" beforeDir="false" afterPath="$PROJECT_DIR$/models/boardsize_4/net_after_episode_100.pt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/boardsize_4/net_after_episode_150.pt" beforeDir="false" afterPath="$PROJECT_DIR$/models/boardsize_4/net_after_episode_150.pt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/boardsize_4/net_after_episode_200.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/boardsize_4/net_after_episode_50.pt" beforeDir="false" afterPath="$PROJECT_DIR$/models/boardsize_4/net_after_episode_50.pt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/boardsize_5/net_after_episode_0.pt" beforeDir="false" afterPath="$PROJECT_DIR$/models/boardsize_5/net_after_episode_0.pt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/boardsize_5/net_after_episode_100.pt" beforeDir="false" afterPath="$PROJECT_DIR$/models/boardsize_5/net_after_episode_100.pt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/boardsize_5/net_after_episode_150.pt" beforeDir="false" afterPath="$PROJECT_DIR$/models/boardsize_5/net_after_episode_150.pt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/boardsize_5/net_after_episode_200.pt" beforeDir="false" afterPath="$PROJECT_DIR$/models/boardsize_5/net_after_episode_200.pt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/boardsize_5/net_after_episode_50.pt" beforeDir="false" afterPath="$PROJECT_DIR$/models/boardsize_5/net_after_episode_50.pt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,11 +33,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/monte_carlo_tree_search$Main.coverage" NAME="Main Coverage Results" MODIFIED="1587059005914" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/monte_carlo_tree_search$Main.coverage" NAME="Main Coverage Results" MODIFIED="1587125443637" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/monte_carlo_tree_search$Actor.coverage" NAME="Actor Coverage Results" MODIFIED="1586957029033" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/monte_carlo_tree_search$Tournament.coverage" NAME="Tournament Coverage Results" MODIFIED="1587057433278" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/monte_carlo_tree_search$Tournament.coverage" NAME="Tournament Coverage Results" MODIFIED="1587118462995" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/monte_carlo_tree_search$Hex.coverage" NAME="Hex Coverage Results" MODIFIED="1587041670026" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/monte_carlo_tree_search$ManvsMachine.coverage" NAME="ManvsMachine Coverage Results" MODIFIED="1587058494918" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/monte_carlo_tree_search$ManvsMachine.coverage" NAME="ManvsMachine Coverage Results" MODIFIED="1587118708040" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/monte_carlo_tree_search$Nim.coverage" NAME="Nim Coverage Results" MODIFIED="1582557811554" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/monte_carlo_tree_search$Ledge.coverage" NAME="Ledge Coverage Results" MODIFIED="1582555042500" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
@@ -34,25 +45,26 @@
     <session id="-1674477449">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="11" />
+          <entry key="project.closed" value="13" />
           <entry key="project.open.time.0" value="4" />
           <entry key="project.open.time.1" value="4" />
           <entry key="project.open.time.3" value="1" />
-          <entry key="project.open.time.5" value="2" />
+          <entry key="project.open.time.5" value="3" />
           <entry key="project.open.time.6" value="1" />
-          <entry key="project.opened" value="12" />
+          <entry key="project.open.time.7" value="1" />
+          <entry key="project.opened" value="14" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="33" />
-          <entry key="py" value="31728" />
+          <entry key="py" value="32766" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="33" />
-          <entry key="Python" value="31728" />
+          <entry key="Python" value="32766" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -74,8 +86,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Actor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="26" column="26" lean-forward="true" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="26" />
+            <state relative-caret-position="216">
+              <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -86,8 +98,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="35">
-              <caret line="2" column="23" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
+            <state relative-caret-position="126">
+              <caret line="7" column="22" lean-forward="true" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -98,21 +110,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="19" column="35" lean-forward="true" selection-start-line="18" selection-end-line="19" selection-end-column="35" />
+            <state relative-caret-position="224">
+              <caret line="22" column="44" selection-start-line="22" selection-start-column="44" selection-end-line="22" selection-end-column="44" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
-                <marker date="1587059159019" expanded="true" signature="210:211" ph="..." />
+                <marker date="1587125443631" expanded="true" signature="208:209" ph="..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Library/Python/3.7/lib/python/site-packages/numpy/core/_ufunc_config.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-500">
-              <caret line="117" selection-start-line="117" selection-end-line="117" />
             </state>
           </provider>
         </entry>
@@ -129,8 +132,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ManvsMachine.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="415">
-              <caret line="27" column="26" lean-forward="true" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="26" />
+            <state relative-caret-position="405">
+              <caret line="53" column="64" lean-forward="true" selection-start-line="53" selection-start-column="64" selection-end-line="53" selection-end-column="64" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -141,8 +144,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="17" selection-start-line="17" selection-end-line="17" selection-end-column="28" />
+            <state relative-caret-position="360">
+              <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -150,8 +153,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GameController.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="837">
-              <caret line="54" column="37" lean-forward="true" selection-start-line="54" selection-start-column="37" selection-end-line="54" selection-end-column="37" />
+            <state relative-caret-position="954">
+              <caret line="54" column="37" selection-start-line="54" selection-start-column="37" selection-end-line="54" selection-end-column="37" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
                 <marker date="1586956232294" expanded="true" signature="804:810" ph="..." />
@@ -168,11 +171,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Tournament.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="316">
-              <caret line="72" column="47" lean-forward="true" selection-start-line="72" selection-start-column="47" selection-end-line="72" selection-end-column="47" />
+            <state relative-caret-position="317">
+              <caret line="62" column="103" selection-start-line="62" selection-start-column="103" selection-end-line="62" selection-end-column="103" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
-                <marker date="1587057457376" expanded="true" signature="220:221" ph="..." />
+                <marker date="1587121636064" expanded="true" signature="220:221" ph="..." />
               </folding>
             </state>
           </provider>
@@ -181,12 +184,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SearchTree.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="64" column="16" selection-start-line="64" selection-start-column="16" selection-end-line="64" selection-end-column="55" />
+            <state relative-caret-position="273">
+              <caret line="71" column="57" selection-start-line="71" selection-start-column="50" selection-end-line="71" selection-end-column="57" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
-                <marker date="1587055347426" expanded="true" signature="3928:3934" ph="..." />
-                <marker date="1587055347426" expanded="true" signature="4573:4579" ph="..." />
+                <marker date="1587121636070" expanded="true" signature="3928:3934" ph="..." />
+                <marker date="1587121636070" expanded="true" signature="4573:4579" ph="..." />
               </folding>
             </state>
           </provider>
@@ -229,8 +232,10 @@
       <find>increment_qsa_count</find>
       <find>start_state</find>
       <find>board_size</find>
-      <find>BOARD_SIZE</find>
       <find>root_state</find>
+      <find>BOARD_SIZE</find>
+      <find>make_move</find>
+      <find>actor</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -250,12 +255,12 @@
         <option value="$PROJECT_DIR$/models/ManvsMachine.py" />
         <option value="$PROJECT_DIR$/GameController.py" />
         <option value="$PROJECT_DIR$/Hex.py" />
-        <option value="$PROJECT_DIR$/Actor.py" />
         <option value="$PROJECT_DIR$/SearchTree.py" />
         <option value="$PROJECT_DIR$/Tournament.py" />
         <option value="$PROJECT_DIR$/ManvsMachine.py" />
-        <option value="$PROJECT_DIR$/Utils.py" />
         <option value="$PROJECT_DIR$/Config.py" />
+        <option value="$PROJECT_DIR$/Utils.py" />
+        <option value="$PROJECT_DIR$/Actor.py" />
         <option value="$PROJECT_DIR$/Main.py" />
       </list>
     </option>
@@ -266,9 +271,9 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="840" />
+    <option name="width" value="1680" />
     <option name="height" value="1027" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -277,7 +282,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -294,12 +298,19 @@
               <item name="monte-carlo-tree-search" type="b2602c69:ProjectViewProjectNode" />
               <item name="monte-carlo-tree-search" type="462c0819:PsiDirectoryNode" />
               <item name="models" type="462c0819:PsiDirectoryNode" />
+              <item name="boardsize_3" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="monte-carlo-tree-search" type="b2602c69:ProjectViewProjectNode" />
+              <item name="monte-carlo-tree-search" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
               <item name="boardsize_4" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -478,15 +489,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
+    <frame x="0" y="23" width="1680" height="1027" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21184371" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17216118" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32941177" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.33262032" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.4524064" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -500,7 +511,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="SciView" order="3" weight="0.31746033" />
+      <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.2881563" />
       <window_info anchor="right" id="Database" order="4" />
     </layout>
     <layout-to-restore>
@@ -579,15 +590,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SearchTree.py">
+    <entry file="file://$USER_HOME$/Library/Python/3.7/lib/python/site-packages/numpy/core/_ufunc_config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="64" column="16" selection-start-line="64" selection-start-column="16" selection-end-line="64" selection-end-column="55" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-            <marker date="1587055347426" expanded="true" signature="3928:3934" ph="..." />
-            <marker date="1587055347426" expanded="true" signature="4573:4579" ph="..." />
-          </folding>
+        <state relative-caret-position="-500">
+          <caret line="117" selection-start-line="117" selection-end-line="117" />
         </state>
       </provider>
     </entry>
@@ -598,31 +604,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Tournament.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="72" column="47" lean-forward="true" selection-start-line="72" selection-start-column="47" selection-end-line="72" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-            <marker date="1587057457376" expanded="true" signature="220:221" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Actor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="26" column="26" lean-forward="true" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/GameController.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="837">
-          <caret line="54" column="37" lean-forward="true" selection-start-line="54" selection-start-column="37" selection-end-line="54" selection-end-column="37" />
+        <state relative-caret-position="954">
+          <caret line="54" column="37" selection-start-line="54" selection-start-column="37" selection-end-line="54" selection-end-column="37" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
             <marker date="1586956232294" expanded="true" signature="804:810" ph="..." />
@@ -635,47 +620,73 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Tournament.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="317">
+          <caret line="62" column="103" selection-start-line="62" selection-start-column="103" selection-end-line="62" selection-end-column="103" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <marker date="1587121636064" expanded="true" signature="220:221" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ManvsMachine.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="415">
-          <caret line="27" column="26" lean-forward="true" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="26" />
+        <state relative-caret-position="405">
+          <caret line="53" column="64" lean-forward="true" selection-start-line="53" selection-start-column="64" selection-end-line="53" selection-end-column="64" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Library/Python/3.7/lib/python/site-packages/numpy/core/_ufunc_config.py">
+    <entry file="file://$PROJECT_DIR$/Config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-500">
-          <caret line="117" selection-start-line="117" selection-end-line="117" />
+        <state relative-caret-position="360">
+          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SearchTree.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="71" column="57" selection-start-line="71" selection-start-column="50" selection-end-line="71" selection-end-column="57" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+            <marker date="1587121636070" expanded="true" signature="3928:3934" ph="..." />
+            <marker date="1587121636070" expanded="true" signature="4573:4579" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="35">
-          <caret line="2" column="23" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
+        <state relative-caret-position="126">
+          <caret line="7" column="22" lean-forward="true" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Config.py">
+    <entry file="file://$PROJECT_DIR$/Actor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" selection-start-line="17" selection-end-line="17" selection-end-column="28" />
+        <state relative-caret-position="216">
+          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="19" column="35" lean-forward="true" selection-start-line="18" selection-end-line="19" selection-end-column="35" />
+        <state relative-caret-position="224">
+          <caret line="22" column="44" selection-start-line="22" selection-start-column="44" selection-end-line="22" selection-end-column="44" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
-            <marker date="1587059159019" expanded="true" signature="210:211" ph="..." />
+            <marker date="1587125443631" expanded="true" signature="208:209" ph="..." />
           </folding>
         </state>
       </provider>

@@ -68,8 +68,8 @@ class SearchTree:
                     current_state = gameController.get_game_state()
                     player_id = 1 if player[-1] == '1' else -1
                     state_with_player = torch.tensor([player_id] + current_state).float()
-                    softmax_distr = softmax(default_policy.forward(state_with_player).detach().numpy())
-                    softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
+                    softmax_distr = default_policy.forward(state_with_player).detach().numpy()
+                    softmax_distr_re_normalized = softmax(Utils.re_normalize(current_state, softmax_distr))
                     action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, self.board_size)
                     if action not in gameController.get_all_valid_moves():
                         print("wtf")

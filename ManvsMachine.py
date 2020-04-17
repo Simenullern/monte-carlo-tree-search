@@ -17,18 +17,10 @@ def load_model(model_path, size):
     return model
 
 
-def make_move(model, current_state, state_with_player):
-    softmax_distr = model.forward(state_with_player).detach().numpy()
-    softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
-
-    action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, BOARD_SIZE)
-    return action
-
-
 if __name__ == '__main__':
     size = 3
     game = Hex(size=size)
-    model = load_model('./models/boardsize_'+str(size) +'/net_after_episode_100.pt', size)
+    model = load_model('./models/boardsize_'+str(size) +'/net_after_episode_200.pt', size)
     gameController = GameController(game, visualize=True)
     start_state = gameController.get_game_state()
 
@@ -54,7 +46,7 @@ if __name__ == '__main__':
                     current_state = gameController.get_game_state()
                     player_id = -1
                     state_with_player = torch.tensor([player_id] + current_state).float()
-                    softmax_distr = softmax(model.forward(state_with_player).detach().numpy())
+                    softmax_distr = model.forward(state_with_player).detach().numpy()
                     softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
                     #print()
                     if random.uniform(0, 1) < 0:

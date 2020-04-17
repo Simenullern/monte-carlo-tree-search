@@ -37,7 +37,7 @@ if __name__ == '__main__':
     matchup_combinations = list(combinations(models.keys(), 2))
 
     game = Hex(size=size)
-    gameController = GameController(game, VISUALIZE_MOVES)
+    gameController = GameController(game, visualize=False)
     start_state = gameController.get_game_state()
 
     scores = {}
@@ -59,14 +59,19 @@ if __name__ == '__main__':
 
                 net_to_use = models[matchup[0]] if player == 'Player1' else models[matchup[1]]
 
-                softmax_distr = softmax(net_to_use.forward(state_with_player).detach().numpy())
-                softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
+                softmax_distr = net_to_use.forward(state_with_player).detach().numpy()
+                softmax_distr_re_normalized = softmax(Utils.re_normalize(current_state, softmax_distr))
 
                 action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, size)
                 gameController.make_move(action, player)
 
                 if gameController.game_is_won():
-                    #print(player1, "is meeting", player2, "for game", game, ":", player, "wins!\n")
+                    print(player1, "is meeting", player2, "for game", game, ":", player, "wins!")
+                    if game % 2 == 0:
+                        print('\tPlayer1 started')
+                    else:
+                        print("\tPlayer2 started")
+
                     if player == 'Player1':
                         scores[matchup[0]] += 1
                     else:

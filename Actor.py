@@ -26,18 +26,21 @@ class Actor:
         self.net.eval()
         return self.net(X)
 
-    def train(self, replay_buffer, replay_buffer_max_size, replay_buffer_minibatch_size):
-        training_set = replay_buffer
-        if len(replay_buffer) > replay_buffer_max_size:  # only keep the latest most entries
-            training_set = replay_buffer[:-replay_buffer_max_size]
-        training_set = Utils.shuffle(training_set)[:replay_buffer_minibatch_size]
-
+    def train(self, replay_buffer, new_examples_count, replay_buffer_max_size, replay_buffer_minibatch_size):
+        new_examples = replay_buffer[-new_examples_count:]
+        old_examples = replay_buffer[:-new_examples_count]
+        if len(old_examples) > replay_buffer_max_size:  # only keep the latest most entries
+            old_examples = old_examples[:-replay_buffer_max_size]
+        old_examples_shuffled = Utils.shuffle(old_examples)
+        training_set = new_examples
+        if len(old_examples) > 0:
+            training_set = (new_examples + old_examples_shuffled)[:replay_buffer_minibatch_size]
         self.net.train()
-        for example in training_set[:replay_buffer_minibatch_size]:
+        for example in training_set:
             self.optimizer.zero_grad()
             pred = self.net(example[0]).reshape(1, -1)
             argmax = torch.tensor(np.argmax(example[1])).reshape(1)
-            distr = torch.tensor(example[1])
+            #distr = torch.tensor(example[1])
             loss = self.criterion(pred, argmax)
             loss.backward()
             self.optimizer.step()

@@ -10,7 +10,7 @@ EXPLORATION_BONUS_C = 100   # 1
 SAVE_PARAMS_EVERY_NTH_EPISODE = 50
 STARTING_PLAYER = 0
 
-HIDDEN_LAYERS = [32, 32]
+HIDDEN_LAYERS = [64, 64]
 LEARNING_RATE = 0.01  # If too high then probability inputs might contain nan
 ACTIVATION = 'tanh'  #'sigmoid', 'tanh', 'relu', 'linaer'
 OPTIMIZER = 'adam'  #adagrad, sgd, rmsprop, 'adam'

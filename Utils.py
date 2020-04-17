@@ -5,7 +5,7 @@ from Stack import Stack
 
 def shuffle(arr):
     random.shuffle(arr)
-    return np.array(arr)
+    return arr #np.arr
 
 
 def print_tree_dfs(root):
