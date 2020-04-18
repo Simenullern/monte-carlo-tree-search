@@ -7,6 +7,7 @@ from Hex import Hex
 from GameController import GameController
 import Utils
 from scipy.special import softmax
+import random
 
 
 def load_contesters(board_size, layers):
@@ -20,15 +21,15 @@ def load_contesters(board_size, layers):
         models[filename] = model
         print(filename)
 
-        current_state = [-1, 1, 1, 0, 1, -1, 0, -1, 1]
-        player_id = -1
-        feat_eng_state = [2/9, 7/9, 1, 1, 1, 1]
-        state_for_net = torch.tensor([player_id] + current_state + feat_eng_state).float()
+        #current_state = [-1, 1, 1, 0, 1, -1, 0, -1, 1]
+        #player_id = -1
+        #feat_eng_state = [2/9, 7/9, 1, 1, 1, 1]
+        #state_for_net = torch.tensor([player_id] + current_state + feat_eng_state).float()
         #state_with_player = torch.tensor([1, 0, 1, 0, 0, 0, 1, 0, 0, -1, 1, -1, 0, -1, 0, 0, 0]).float()
-        softmax_distr = softmax(model.forward(state_for_net).detach().numpy())
-        print(softmax_distr)
-        softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
-        print(softmax_distr_re_normalized, '\n')
+        #softmax_distr = softmax(model.forward(state_for_net).detach().numpy())
+        #print(softmax_distr)
+        #softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
+        #print(softmax_distr_re_normalized, '\n')
 
     breakpoint()
 
@@ -37,8 +38,8 @@ def load_contesters(board_size, layers):
 
 
 if __name__ == '__main__':
-    size = 3
-    hidden_layers = [16 * size, 16 * size]
+    size = 5
+    hidden_layers = [48, 48]
     models = load_contesters(size, hidden_layers)
     matchup_combinations = list(combinations(models.keys(), 2))
 
@@ -78,16 +79,19 @@ if __name__ == '__main__':
 
                 softmax_distr = softmax(net_to_use.forward(state_for_net).detach().numpy())
                 softmax_distr_re_normalized = (Utils.re_normalize(current_state, softmax_distr))
-
-                action = Utils.make_move_from_distribution(softmax_distr_re_normalized, size)
-                gameController.make_move(action, player)
+                if random.uniform(0, 5) < 1:
+                    action = Utils.make_move_from_distribution(softmax_distr_re_normalized, size)
+                    gameController.make_move(action, player)
+                else:
+                    action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, size)
+                    gameController.make_move(action, player)
 
                 if gameController.game_is_won():
-                    print(player1, "is meeting", player2, "for game", game, ":", player, "wins!")
-                    if game % 2 == 0:
-                        print('\tPlayer1 started')
-                    else:
-                        print("\tPlayer2 started")
+                    #print(player1, "is meeting", player2, "for game", game, ":", player, "wins!")
+                    #if game % 2 == 0:
+                        #print('\tPlayer1 started')
+                    #else:
+                        #print("\tPlayer2 started")
 
                     if player == 'Player1':
                         scores[matchup[0]] += 1

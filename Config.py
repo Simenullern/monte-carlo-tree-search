@@ -11,7 +11,7 @@ SAVE_PARAMS_EVERY_NTH_EPISODE = 50
 STARTING_PLAYER = 0
 
 HIDDEN_LAYERS = [64, 64]
-LEARNING_RATE = 0.005  # If too high then probability inputs might contain nan
+LEARNING_RATE = 0.001
 ACTIVATION = 'tanh'  #'sigmoid', 'tanh', 'relu', 'linaer'
 OPTIMIZER = 'adam'  #adagrad, sgd, rmsprop, 'adam'
 
@@ -20,7 +20,7 @@ REPLAY_BUFFER_MINIBATCH_SIZE = 50
 
 EPSILON = 0.5
 
-M_GAMES_TO_PLAY_IN_TOPP = 100
+M_GAMES_TO_PLAY_IN_TOPP = 1000
 
 ACTIVATIONS = {
     'linear': torch.nn.Identity,

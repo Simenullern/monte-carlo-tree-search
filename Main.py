@@ -9,15 +9,15 @@ import random
 import time
 
 if __name__ == '__main__':
-    for BOARD_SIZE in [3]:
+    for BOARD_SIZE in [6]:
         start_time = time.time()
 
-        NUM_EPISODES = BOARD_SIZE * BOARD_SIZE * 20
-        NUM_EPISODES = 200 if NUM_EPISODES < 200 else NUM_EPISODES
-        NUM_OF_SIMULATIONS = BOARD_SIZE * BOARD_SIZE * 100
+        NUM_EPISODES = 5000
+        #NUM_EPISODES = 200 #if NUM_EPISODES < 200 else NUM_EPISODES
+        NUM_OF_SIMULATIONS = BOARD_SIZE * BOARD_SIZE * 50
         REPLAY_BUFFER_MAX_SIZE = BOARD_SIZE * BOARD_SIZE * 100
         REPLAY_BUFFER_MINIBATCH_SIZE = BOARD_SIZE * BOARD_SIZE * 5
-        HIDDEN_LAYERS = [16 * BOARD_SIZE, 16 * BOARD_SIZE]
+        HIDDEN_LAYERS = [96, 96] # 48, 48
 
         game = Hex(size=BOARD_SIZE)
         gameController = GameController(game, visualize=False)
@@ -36,7 +36,7 @@ if __name__ == '__main__':
 
             for player in GAME_CYCLE:
                 searchTree = SearchTree(root_state, BOARD_SIZE, EXPLORATION_BONUS_C, EPSILON, actor)
-                p_of_random_move = 0.1 if p_of_random_move == 0.1 else 0.5 - 0.05 * actual_moves_taken
+                p_of_random_move = 0.1 if p_of_random_move == 0.1 else 0.5 - 0.1 * actual_moves_taken
                 take_random_move_this_turn = False
 
                 if random.uniform(0, 1) < p_of_random_move:

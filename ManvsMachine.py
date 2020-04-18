@@ -18,10 +18,10 @@ def load_model(model_path, size, hidden_layers):
 
 
 if __name__ == '__main__':
-    size = 3
-    hidden_layers = [16 * size, 16 * size]
+    size = 4
+    hidden_layers = [48, 48]
     game = Hex(size=size)
-    model = load_model('./models/boardsize_'+str(size) +'/net_after_episode_50.pt', size, hidden_layers)
+    model = load_model('./models/boardsize_'+str(size) +'/net_after_episode_300.pt', size, hidden_layers)
     gameController = GameController(game, visualize=True)
     start_state = gameController.get_game_state()
 
