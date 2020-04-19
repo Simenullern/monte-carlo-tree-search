@@ -26,7 +26,6 @@ class Actor:
         logsoftmax = torch.nn.LogSoftmax()
         return torch.mean(torch.sum(- soft_targets * logsoftmax(pred), 1))
 
-
     def forward(self, X):
         self.net.eval()
         return self.net(X)

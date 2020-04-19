@@ -14,22 +14,25 @@ def load_contesters(board_size, layers):
     models = {}
 
     for filename in sorted(os.listdir('./models/boardsize_'+str(board_size))):
-        actor = Actor(board_size, layers, LEARNING_RATE, ACTIVATION, OPTIMIZER)
-        model = actor.net
-        model.load_state_dict(torch.load('./models/boardsize_'+str(board_size)+'/'+filename))
-        model.eval()
-        models[filename] = model
-        print(filename)
+        episode = int(filename.split("_")[-1].split(".")[0])
 
-        #current_state = [-1, 1, 1, 0, 1, -1, 0, -1, 1]
-        #player_id = -1
-        #feat_eng_state = [2/9, 7/9, 1, 1, 1, 1]
-        #state_for_net = torch.tensor([player_id] + current_state + feat_eng_state).float()
-        #state_with_player = torch.tensor([1, 0, 1, 0, 0, 0, 1, 0, 0, -1, 1, -1, 0, -1, 0, 0, 0]).float()
-        #softmax_distr = softmax(model.forward(state_for_net).detach().numpy())
-        #print(softmax_distr)
-        #softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
-        #print(softmax_distr_re_normalized, '\n')
+        if episode in [i for i in range(0, 550, 50)]: #[0, 50, 250, 500]:
+            actor = Actor(board_size, layers, LEARNING_RATE, ACTIVATION, OPTIMIZER)
+            model = actor.net
+            model.load_state_dict(torch.load('./models/boardsize_'+str(board_size)+'/'+filename))
+            model.eval()
+            models[filename] = model
+            print(filename)
+
+            #current_state = [-1, 1, 1, 0, 1, -1, 0, -1, 1]
+            #player_id = -1
+            #feat_eng_state = [2/9, 7/9, 1, 1, 1, 1]
+            #state_for_net = torch.tensor([player_id] + current_state + feat_eng_state).float()
+            #state_with_player = torch.tensor([1, 0, 1, 0, 0, 0, 1, 0, 0, -1, 1, -1, 0, -1, 0, 0, 0]).float()
+            #softmax_distr = softmax(model.forward(state_for_net).detach().numpy())
+            #print(softmax_distr)
+            #softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
+            #print(softmax_distr_re_normalized, '\n')
 
     breakpoint()
 
@@ -38,8 +41,8 @@ def load_contesters(board_size, layers):
 
 
 if __name__ == '__main__':
-    size = 5
-    hidden_layers = [48, 48]
+    size = 6
+    hidden_layers = [96, 96]  # 48 48 $96, 96
     models = load_contesters(size, hidden_layers)
     matchup_combinations = list(combinations(models.keys(), 2))
 
@@ -79,7 +82,8 @@ if __name__ == '__main__':
 
                 softmax_distr = softmax(net_to_use.forward(state_for_net).detach().numpy())
                 softmax_distr_re_normalized = (Utils.re_normalize(current_state, softmax_distr))
-                if random.uniform(0, 5) < 1:
+
+                if random.uniform(0, 1) < 0.25:
                     action = Utils.make_move_from_distribution(softmax_distr_re_normalized, size)
                     gameController.make_move(action, player)
                 else:
