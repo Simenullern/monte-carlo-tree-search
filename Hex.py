@@ -237,15 +237,21 @@ class Hex:
 
 
 if __name__ == '__main__':
-    Board = Hex(size=3)
+    Board = Hex(size=6)
     Board.visualize()
-    print(Board.get_all_valid_moves())
     Board.make_move((0, 0), 'Player2')
+    print(Board.get_state())
     Board.make_move((0, 1), 'Player1')
+    print(Board.get_state())
     Board.make_move((0, 2), 'Player1')
+    print(Board.get_state())
     Board.make_move((1, 1), 'Player1')
+    print(Board.get_state())
     Board.make_move((1, 2), 'Player2')
+    print(Board.get_state())
     Board.make_move((2, 1), 'Player2')
+    print(Board.get_state())
     Board.make_move((2, 2), 'Player1')
     print(Board.get_state())
     Board.visualize()
+    breakpoint()

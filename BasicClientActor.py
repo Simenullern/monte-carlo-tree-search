@@ -7,6 +7,7 @@ import Utils
 import random
 from scipy.special import softmax
 
+
 class BasicClientActor(BasicClientActorAbs):
 
     def __init__(self, IP_address=None, verbose=True):
@@ -14,7 +15,7 @@ class BasicClientActor(BasicClientActorAbs):
         BasicClientActorAbs.__init__(self, IP_address, verbose=verbose)
 
     def load_model(self, model_path, size):
-        actor = Actor(size, HIDDEN_LAYERS, LEARNING_RATE, ACTIVATION, OPTIMIZER)
+        actor = Actor(size, [96, 96], LEARNING_RATE, ACTIVATION, OPTIMIZER)
         model = actor.net
         model.load_state_dict(torch.load(model_path))
         model.eval()
@@ -31,21 +32,27 @@ class BasicClientActor(BasicClientActorAbs):
         :return: Your actor's selected action as a tuple (row, column)
         """
 
-        print('oht state', oht_state)
         board_size = 6
         next_move = None
 
-        if random.uniform(0, 1) < 0:
-            next_move = tuple(self.pick_random_free_cell(oht_state, size=int(math.sqrt(len(oht_state)-1))))
+        #if random.uniform(0, 1) < 1:
+            #next_move = tuple(self.pick_random_free_cell(oht_state, size=int(math.sqrt(len(oht_state)-1))))
 
+        #else:
+
+        current_state, state_for_net = Utils.map_oht_format_to_my_format(oht_state, board_size)
+        #print("\nboardsize", board_size)
+        #print("\noht_state", oht_state)
+        #print("\nstate for net", state_for_net)
+        net_to_use = self.load_model('./models/boardsize_'+str(board_size) +'/net_after_episode_500.pt', board_size)
+        softmax_distr = softmax(net_to_use.forward(state_for_net).detach().numpy())
+        softmax_distr_re_normalized = (Utils.re_normalize(current_state, softmax_distr))
+
+        if random.uniform(0, 1) < 0.25:
+            next_move = Utils.make_move_from_distribution(softmax_distr_re_normalized, board_size, verbose=False)
         else:
-            current_state, state_with_player = Utils.map_oht_format_to_my_format(oht_state)
-            net_to_use = self.load_model('./models/boardsize_'+str(board_size) +'/net_after_episode_100.pt', board_size)
-            softmax_distr = softmax(net_to_use.forward(state_with_player).detach().numpy())
-            softmax_distr_re_normalized = (Utils.re_normalize(current_state, softmax_distr))
+            next_move = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, board_size, verbose=False)
 
-            action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, board_size)
-            next_move = action
 
 
         # This is an example player who picks random moves. REMOVE THIS WHEN YOU ADD YOUR OWN CODE !!
