@@ -21,7 +21,7 @@ if __name__ == '__main__':
     size = 6
     hidden_layers = [96, 96] #[96, 96],  # [48, 48]
     game = Hex(size=size)
-    model = load_model('./models/boardsize_'+str(size) +'/net_after_episode_500.pt', size, hidden_layers)
+    model = load_model('./models/boardsize_'+str(size) +'/net_after_episode_2500.pt', size, hidden_layers)
     gameController = GameController(game, visualize=True)
     start_state = gameController.get_game_state()
 
@@ -62,7 +62,7 @@ if __name__ == '__main__':
                     softmax_distr = softmax(model.forward(state_for_net).detach().numpy())
                     softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
                     #print()
-                    if random.uniform(0, 1) < 0.25:
+                    if random.uniform(0, 1) < 0:
                         action = Utils.make_move_from_distribution(softmax_distr_re_normalized, size, verbose = True)
                         gameController.make_move(action, player)
                     else:

@@ -237,7 +237,7 @@ class Hex:
 
 
 if __name__ == '__main__':
-    Board = Hex(size=6)
+    Board = Hex(size=3)
     Board.visualize()
     Board.make_move((0, 0), 'Player2')
     print(Board.get_state())
@@ -254,4 +254,3 @@ if __name__ == '__main__':
     Board.make_move((2, 2), 'Player1')
     print(Board.get_state())
     Board.visualize()
-    breakpoint()

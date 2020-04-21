@@ -44,11 +44,11 @@ class BasicClientActor(BasicClientActorAbs):
         #print("\nboardsize", board_size)
         #print("\noht_state", oht_state)
         #print("\nstate for net", state_for_net)
-        net_to_use = self.load_model('./models/boardsize_'+str(board_size) +'/net_after_episode_500.pt', board_size)
+        net_to_use = self.load_model('./models/boardsize_'+str(board_size) +'/net_after_episode_2500.pt', board_size)
         softmax_distr = softmax(net_to_use.forward(state_for_net).detach().numpy())
         softmax_distr_re_normalized = (Utils.re_normalize(current_state, softmax_distr))
 
-        if random.uniform(0, 1) < 0.25:
+        if random.uniform(0, 1) < 0:
             next_move = Utils.make_move_from_distribution(softmax_distr_re_normalized, board_size, verbose=False)
         else:
             next_move = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, board_size, verbose=False)
