@@ -1,10 +1,7 @@
 from itertools import cycle
-import torch
 from Node import Node
 import Utils
-import numpy as np
 import random
-import math
 from scipy.special import softmax
 
 
@@ -40,73 +37,48 @@ class SearchTree:
             simulation_controller.make_move(tree_action, player)
 
             game_cycle_in_simulation = cycle(['Player1', 'Player2']) if player == 'Player2' else cycle(
-                ['Player2', 'Player1'])  # Because player makes tree_action according to tree policy
+                ['Player2', 'Player1'])  # Because player first makes tree_action according to tree policy
             reward = self.leaf_evaluation(player, game_cycle_in_simulation, simulation_controller, self.actor)
             self.backprop(reward, tree_action)
 
         # Add to replay_buffer
         current_state = episode_game_controller.get_game_state()
         player_id = 1 if player[-1] == '1' else -1
-        number_of_cells = self.board_size * self.board_size
-        number_of_taken_cells = episode_game_controller.get_number_of_pieces_on_board()
-        number_of_free_cells = number_of_cells - number_of_taken_cells
-        frac_free = number_of_free_cells / number_of_cells
-        frac_taken = number_of_taken_cells / number_of_cells
-        player_1_taken_endwall1, player_1_taken_endwall2 = episode_game_controller.get_outer_walls_set_for_player(1)
-        player_2_taken_endwall1, player_2_taken_endwall2 = episode_game_controller.get_outer_walls_set_for_player(2)
-
-        feat_eng_state = [frac_free, frac_taken, player_1_taken_endwall1, player_1_taken_endwall2,
-                          player_2_taken_endwall1, player_2_taken_endwall2]
-
-        state_for_net = torch.tensor([player_id] + current_state + feat_eng_state).float()
-
+        state_repr_for_net = episode_game_controller.get_state_repr_of_game_for_net(current_state, player_id, self.board_size)
         normalized_visit_counts = self.get_normalized_visit_counts(current_state)
-        self.replay_buffer.append((state_for_net, normalized_visit_counts))
+        self.replay_buffer.append((state_repr_for_net, normalized_visit_counts))
 
-        return normalized_visit_counts, Utils.make_max_move_from_distribution(normalized_visit_counts, self.board_size)
+        return normalized_visit_counts, Utils.max_move_from_distribution(normalized_visit_counts, self.board_size)
 
-    def leaf_evaluation(self, player_evaluating, cycle, gameController, default_policy='random_move'):
+    def leaf_evaluation(self, player_evaluating, cycle, simulation_controller, default_policy='random_move'):
         for player in cycle:
-            if gameController.game_is_won():
-                pieces_on_board = gameController.get_number_of_pieces_on_board()
+            if simulation_controller.game_is_won():
+                pieces_on_board = simulation_controller.get_number_of_pieces_on_board()
                 if not player == player_evaluating:
                     return 1 + self.board_size / pieces_on_board
                 else:
                     return -1 - self.board_size / pieces_on_board
             else:
                 if random.uniform(0, 1) < self.epsilon:
-                    gameController.make_random_move(player)
+                    simulation_controller.make_random_move(player)
                 else:
-                    current_state = gameController.get_game_state()
+                    current_state = simulation_controller.get_game_state()
                     player_id = 1 if player[-1] == '1' else -1
-                    number_of_cells = self.board_size * self.board_size
-                    number_of_taken_cells = gameController.get_number_of_pieces_on_board()
-                    number_of_free_cells = number_of_cells - number_of_taken_cells
-                    frac_free = number_of_free_cells / number_of_cells
-                    frac_taken = number_of_taken_cells / number_of_cells
-                    player_1_taken_endwall1, player_1_taken_endwall2 = gameController.get_outer_walls_set_for_player(1)
-                    player_2_taken_endwall1, player_2_taken_endwall2 = gameController.get_outer_walls_set_for_player(2)
-
-                    feat_eng_state = [frac_free, frac_taken, player_1_taken_endwall1, player_1_taken_endwall2,
-                                      player_2_taken_endwall1, player_2_taken_endwall2]
-
-                    state_for_net = torch.tensor([player_id] + current_state + feat_eng_state).float()
-
-
-                    softmax_distr = softmax(default_policy.forward(state_for_net).detach().numpy())
+                    state_repr_for_net = simulation_controller.get_state_repr_of_game_for_net(current_state, player_id, self.board_size)
+                    softmax_distr = softmax(default_policy.forward(state_repr_for_net).detach().numpy())
                     softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
 
-                    action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, self.board_size)
-                    if action not in gameController.get_all_valid_moves():
-                        print("wtf")
-                        gameController.make_random_move(player)
-                    gameController.make_move(action, player)
+                    action = Utils.max_move_from_distribution(softmax_distr_re_normalized, self.board_size)
+                    if action not in simulation_controller.get_all_valid_moves():
+                        #print("Only happens if vanishing or exploding gradients makes float32 out of reach")
+                        simulation_controller.make_random_move(player)
+                    else:
+                        simulation_controller.make_move(action, player)
 
     def backprop(self, reward, first_move_from_leaf_in_tree_search):
         self.root.increment_visited_count()
         node = self.root.get_child(first_move_from_leaf_in_tree_search)
         action = first_move_from_leaf_in_tree_search
-        #breakpoint()
 
         while node.parent is not None:
             node.increment_visited_count()
@@ -119,7 +91,6 @@ class SearchTree:
         return self.root.get_move(self.exploration_bonus_c)
 
     def get_normalized_visit_counts(self, current_state):
-        #print("current game state when calc visit counts", current_state)
         visit_counts = []
         decision_point = self.root
 
@@ -130,22 +101,12 @@ class SearchTree:
                 row = cell // self.board_size
                 col = cell % self.board_size
                 key = (row, col)
-                #print(board_size, row, col)
                 if key in decision_point.qsa_count.keys():
                     visit_counts.append(decision_point.qsa_count[key])
                 else:
                     visit_counts.append(0)  # Action never selected during default policy and hence never visited
 
         normalized_visit_counts = [float(i) / sum(visit_counts) for i in visit_counts]
-        #print("visit counts", visit_counts, "len", len(visit_counts))
-        #print("normalized visit counts", normalized_visit_counts)
-        #breakpoint()
         return normalized_visit_counts
 
-    def reset_stats(self):
-        node = self.root
-        for action in self.tree_policy:
-            node.reset_stats()
-            node = node.get_child(action)
-        return node
 

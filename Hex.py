@@ -80,7 +80,6 @@ class Hex:
                 while not stack.is_empty():
                     cell = stack.pop()
                     if cell.get_loc()[0] == self.size-1:
-                        #print('RED WON')
                         return True
                     for neighbor in cell.get_neighbors():
                         if neighbor.get_fill() == 'red' and neighbor not in visited:
@@ -97,7 +96,6 @@ class Hex:
                 while not stack.is_empty():
                     cell = stack.pop()
                     if cell.get_loc()[1] == self.size - 1:
-                        #print('black WON')
                         return True
                     for neighbor in cell.get_neighbors():
                         if neighbor.get_fill() == 'black' and neighbor not in visited:
@@ -135,9 +133,6 @@ class Hex:
 
         return first_wall, second_wall
 
-
-
-
     def get_all_valid_moves(self):
         possible_moves = []
         for r in range(0, len(self.cells)):
@@ -150,7 +145,6 @@ class Hex:
         return possible_moves
 
     def make_move(self, move, player):
-        # on the form a where a is the loc to place
         for valid_move in self.get_all_valid_moves():
             if move == valid_move:
                 row_to = move[0]
@@ -161,17 +155,6 @@ class Hex:
                     self.cells[row_to][col_to].set_fill('black')
                 return
         raise Exception(str(move) + ' is not a valid move')
-
-    def get_hashable_state(self):
-        string = ""
-        for r in range(0, len(self.cells)):
-            for c in range(0, len(self.cells[r])):
-                current_cell = self.cells[r][c]
-                if current_cell.is_filled():
-                    string += "1"
-                else:
-                    string += "0"
-        return string
 
     def visualize(self):
         G = nx.Graph()

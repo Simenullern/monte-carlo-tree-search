@@ -1,4 +1,3 @@
-import os
 from Config import *
 from Actor import Actor
 import Utils
@@ -18,12 +17,11 @@ def load_model(model_path, size, hidden_layers):
 
 
 if __name__ == '__main__':
-    size = 6
-    hidden_layers = [96, 96] #[96, 96],  # [48, 48]
-    game = Hex(size=size)
-    model = load_model('./models/boardsize_'+str(size) +'/net_after_episode_2500.pt', size, hidden_layers)
+    BOARD_SIZE = 6
+    hidden_layers = [96, 96]
+    game = Hex(size=BOARD_SIZE)
+    model = load_model('./models/boardsize_'+str(BOARD_SIZE) +'/net_after_episode_4550.pt', BOARD_SIZE, hidden_layers)
     gameController = GameController(game, visualize=True)
-    start_state = gameController.get_game_state()
 
     while True:
         for game in range(1, 11):
@@ -31,7 +29,7 @@ if __name__ == '__main__':
             gameController.visualize()
 
             GAME_CYCLE = cycle(['Player1', 'Player2']) if game % 2 == 0 else cycle(['Player2', 'Player1'])
-            # Player 1 is YOU
+            # Player 1 is YOU, the human
 
             for player in GAME_CYCLE:
                 if player == 'Player1':
@@ -46,27 +44,16 @@ if __name__ == '__main__':
                 else:
                     current_state = gameController.get_game_state()
                     player_id = 1 if player[-1] == '1' else -1
-                    number_of_cells = size * size
-                    number_of_taken_cells = gameController.get_number_of_pieces_on_board()
-                    number_of_free_cells = number_of_cells - number_of_taken_cells
-                    frac_free = number_of_free_cells / number_of_cells
-                    frac_taken = number_of_taken_cells / number_of_cells
-                    player_1_taken_endwall1, player_1_taken_endwall2 = gameController.get_outer_walls_set_for_player(1)
-                    player_2_taken_endwall1, player_2_taken_endwall2 = gameController.get_outer_walls_set_for_player(2)
+                    state_repr_for_net = gameController.get_state_repr_of_game_for_net(current_state, player_id, BOARD_SIZE)
 
-                    feat_eng_state = [frac_free, frac_taken, player_1_taken_endwall1, player_1_taken_endwall2,
-                                      player_2_taken_endwall1, player_2_taken_endwall2]
-
-                    state_for_net = torch.tensor([player_id] + current_state + feat_eng_state).float()
-
-                    softmax_distr = softmax(model.forward(state_for_net).detach().numpy())
+                    softmax_distr = softmax(model.forward(state_repr_for_net).detach().numpy())
                     softmax_distr_re_normalized = Utils.re_normalize(current_state, softmax_distr)
-                    #print()
+
                     if random.uniform(0, 1) < 0:
-                        action = Utils.make_move_from_distribution(softmax_distr_re_normalized, size, verbose = True)
+                        action = Utils.move_from_distribution(softmax_distr_re_normalized, BOARD_SIZE, verbose = True)
                         gameController.make_move(action, player)
                     else:
-                        action = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, size, verbose=True)
+                        action = Utils.max_move_from_distribution(softmax_distr_re_normalized, BOARD_SIZE, verbose=True)
                         gameController.make_move(action, player)
 
                 if gameController.game_is_won():

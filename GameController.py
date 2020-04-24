@@ -1,5 +1,6 @@
 import random
 import copy
+import torch
 
 
 class GameController:
@@ -72,3 +73,18 @@ class GameController:
 
     def visualize(self):
         self.game.visualize()
+
+    def get_state_repr_of_game_for_net(self, game_state, player_id, board_size):
+        number_of_cells = board_size * board_size
+        number_of_taken_cells = self.get_number_of_pieces_on_board()
+        number_of_free_cells = number_of_cells - number_of_taken_cells
+        frac_free = number_of_free_cells / number_of_cells
+        frac_taken = number_of_taken_cells / number_of_cells
+        player_1_taken_endwall1, player_1_taken_endwall2 = self.get_outer_walls_set_for_player(1)
+        player_2_taken_endwall1, player_2_taken_endwall2 = self.get_outer_walls_set_for_player(2)
+
+        feat_eng_state = [frac_free, frac_taken, player_1_taken_endwall1, player_1_taken_endwall2,
+                          player_2_taken_endwall1, player_2_taken_endwall2]
+
+        state_for_net = torch.tensor([player_id] + game_state + feat_eng_state).float()
+        return state_for_net

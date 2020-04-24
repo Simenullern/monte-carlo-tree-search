@@ -60,7 +60,7 @@ class Node:
         max_action = None
         for action in self.qsa_value.keys():
             value = self.qsa_value[action] + self.get_exploration_bonus(action, exploration_bonus_c)
-            #value = value / (1 + self.qsa_count[action])
+            #value = value / (1 + self.qsa_count[action])  # Possible modification seen in the literature
             if value > max_value:
                 max_value = value
                 max_action = action

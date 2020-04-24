@@ -1,8 +1,8 @@
 import math
 from BasicClientActorAbs import BasicClientActorAbs
 import torch
-from Config import *
 from Actor import Actor
+from Config import *
 import Utils
 import random
 from scipy.special import softmax
@@ -13,13 +13,6 @@ class BasicClientActor(BasicClientActorAbs):
     def __init__(self, IP_address=None, verbose=True):
         self.series_id = -1
         BasicClientActorAbs.__init__(self, IP_address, verbose=verbose)
-
-    def load_model(self, model_path, size):
-        actor = Actor(size, [96, 96], LEARNING_RATE, ACTIVATION, OPTIMIZER)
-        model = actor.net
-        model.load_state_dict(torch.load(model_path))
-        model.eval()
-        return model
 
     def handle_get_action(self, oht_state):
         """
@@ -32,39 +25,27 @@ class BasicClientActor(BasicClientActorAbs):
         :return: Your actor's selected action as a tuple (row, column)
         """
 
-        board_size = 6
+        BOARD_SIZE = 6
+        HIDDEN_LAYERS = [96, 96]
         next_move = None
 
-        #if random.uniform(0, 1) < 1:
-            #next_move = tuple(self.pick_random_free_cell(oht_state, size=int(math.sqrt(len(oht_state)-1))))
+        current_state, state_for_net = BasicClientActor.map_oht_format_to_my_format(oht_state, BOARD_SIZE)
 
-        #else:
+        net_to_use = Actor.load_model('./models/boardsize_'+str(BOARD_SIZE) +'/net_after_episode_4550.pt',
+                                      BOARD_SIZE,
+                                      HIDDEN_LAYERS,
+                                      LEARNING_RATE,
+                                      ACTIVATION,
+                                      OPTIMIZER)
 
-        current_state, state_for_net = Utils.map_oht_format_to_my_format(oht_state, board_size)
-        #print("\nboardsize", board_size)
-        #print("\noht_state", oht_state)
-        #print("\nstate for net", state_for_net)
-        net_to_use = self.load_model('./models/boardsize_'+str(board_size) +'/net_after_episode_4550.pt', board_size)
         softmax_distr = softmax(net_to_use.forward(state_for_net).detach().numpy())
         softmax_distr_re_normalized = (Utils.re_normalize(current_state, softmax_distr))
 
         if random.uniform(0, 1) < 0:
-            next_move = Utils.make_move_from_distribution(softmax_distr_re_normalized, board_size, verbose=False)
+            next_move = Utils.move_from_distribution(softmax_distr_re_normalized, BOARD_SIZE, verbose=False)
         else:
-            next_move = Utils.make_max_move_from_distribution(softmax_distr_re_normalized, board_size, verbose=False)
+            next_move = Utils.max_move_from_distribution(softmax_distr_re_normalized, BOARD_SIZE, verbose=False)
 
-
-
-        # This is an example player who picks random moves. REMOVE THIS WHEN YOU ADD YOUR OWN CODE !!
-        #next_move = tuple(self.pick_random_free_cell(
-            #state, size=int(math.sqrt(len(state)-1))))
-        #############################
-        #
-        #
-        # YOUR CODE HERE
-        #
-        # next_move = ???
-        ##############################
         return next_move
 
     def handle_series_start(self, unique_id, series_id, player_map, num_games, game_params):
@@ -169,6 +150,52 @@ class BasicClientActor(BasicClientActorAbs):
         print("An illegal action was attempted:")
         print('State: ' + str(state))
         print('Action: ' + str(illegal_action))
+
+    @staticmethod
+    def map_oht_format_to_my_format(oht_state, board_size):
+        player_id = 1 if oht_state[0] == 1 else -1
+        current_state = []
+        pieces_on_board = 0
+
+        player_1_taken_endwall1 = 0
+        player_1_taken_endwall2 = 0
+        player_2_taken_endwall1 = 0
+        player_2_taken_endwall2 = 0
+
+        for i in range(1, len(oht_state)):
+            piece = oht_state[i]
+            if not piece == 0:
+                pieces_on_board += 1
+
+                if i <= board_size and piece == 1:
+                    player_1_taken_endwall1 = 1
+
+                if i > (board_size - 1) * board_size and piece == 1:
+                    player_1_taken_endwall2 = 1
+
+                if i % board_size == 1 and piece == 2:
+                    player_2_taken_endwall1 = 1
+
+                if i % board_size == 0 and piece == 2:
+                    player_2_taken_endwall2 = 1
+
+            if piece == 0 or piece == 1:
+                current_state.append(piece)
+            elif piece == 2:
+                current_state.append(-1)
+
+        number_of_cells = board_size * board_size
+        number_of_taken_cells = pieces_on_board
+        number_of_free_cells = number_of_cells - number_of_taken_cells
+        frac_free = number_of_free_cells / number_of_cells
+        frac_taken = number_of_taken_cells / number_of_cells
+
+        feat_eng_state = [frac_free, frac_taken, player_1_taken_endwall1, player_1_taken_endwall2,
+                          player_2_taken_endwall1, player_2_taken_endwall2]
+
+        state_for_net = torch.tensor([player_id] + current_state + feat_eng_state).float()
+
+        return current_state, state_for_net
 
 
 if __name__ == '__main__':
