@@ -73,6 +73,8 @@ def make_max_move_from_distribution(distribution_normalized, board_size, verbose
     return (row, col)
 
 
+
+# Refactor to gamecontroller
 def map_oht_format_to_my_format(oht_state, board_size):
     player_id = 1 if oht_state[0] == 1 else -1
     current_state = []

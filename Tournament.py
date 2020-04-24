@@ -16,7 +16,7 @@ def load_contesters(board_size, layers):
     for filename in sorted(os.listdir('./models/boardsize_'+str(board_size))):
         episode = int(filename.split("_")[-1].split(".")[0])
 
-        if episode in [i for i in range(2000, 10000, 100)]: #[0, 50, 250, 500]:
+        if episode in [i for i in range(3450, 10000, 50)]: #[0, 50, 250, 500]:
             actor = Actor(board_size, layers, LEARNING_RATE, ACTIVATION, OPTIMIZER)
             model = actor.net
             model.load_state_dict(torch.load('./models/boardsize_'+str(board_size)+'/'+filename))

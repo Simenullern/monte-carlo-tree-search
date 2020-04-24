@@ -44,7 +44,7 @@ class BasicClientActor(BasicClientActorAbs):
         #print("\nboardsize", board_size)
         #print("\noht_state", oht_state)
         #print("\nstate for net", state_for_net)
-        net_to_use = self.load_model('./models/boardsize_'+str(board_size) +'/net_after_episode_2500.pt', board_size)
+        net_to_use = self.load_model('./models/boardsize_'+str(board_size) +'/net_after_episode_4550.pt', board_size)
         softmax_distr = softmax(net_to_use.forward(state_for_net).detach().numpy())
         softmax_distr_re_normalized = (Utils.re_normalize(current_state, softmax_distr))
 
@@ -172,5 +172,5 @@ class BasicClientActor(BasicClientActorAbs):
 
 
 if __name__ == '__main__':
-    bsa = BasicClientActor(verbose=True)
+    bsa = BasicClientActor(verbose=False)
     bsa.connect_to_server()
